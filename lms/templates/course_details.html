@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Page</title>
+    <link rel="stylesheet" href="{% static 'css/course_details.css' %}">
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <div class="navigation">
+            <a href="#">IIT JEE</a>
+            <a href="#">Plus</a>
+            <a href="#">Syllabus</a>
+            <a href="#">Mathematics</a>
+        </div>
+
+        <!-- Course Info Section -->
+        <div class="course-section">
+            <img src="teacher.jpg" alt="Teacher Image" class="teacher-img">
+            <div class="course-details">
+                <p class="lang">HINGLISH</p>
+                <h1>Master Course on Quadratic Equation for Droppers - 2025</h1>
+                <p class="teacher">Om Sharma</p>
+                <p class="course-desc">
+                    In this course, Om Sharma Sir will cover Mathematics from Quadratic Equations. 
+                    It will be helpful for students preparing for the JEE MAIN and JEE ADVANCED Exams. 
+                    Each class is of 90 minutes...
+                </p>
+            </div>
+            <div class="course-actions">
+                <p class="ended-date">Ended on May 10</p>
+                <p class="lessons">10 lessons</p>
+                <p class="practices">0 practices</p>
+                <button class="renew-btn">Renew subscription</button>
+                <button class="share-btn">Share</button>
+            </div>
+        </div>
+
+        <!-- Demo Classes Section -->
+        <div class="demo-classes">
+            <h2>Demo Classes</h2>
+            <p>Watch free classes by the educators of this batch</p>
+            <img src="teacher-demo.jpg" alt="Teacher Demo" class="demo-img">
+        </div>
+    </div>
+</body>
+</html>
+c

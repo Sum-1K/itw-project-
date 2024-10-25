@@ -1,0 +1,278 @@
+<!-- <!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+</head>
+<body>
+    <nav class="navbar">
+        <ul class="nav-left">
+           
+            <li>
+                <div class="tag_name">
+                    <a href="/">Home</a>
+                </div>
+               </li>
+               <li class="dropdown tag_name">
+                <a href="/courses" class="dropbtn">Courses</a>
+                <div class="dropdown-content">
+                    <a href="#">My Courses</a>
+                    
+                    <a href="/courses">Explore</a>
+                </div>
+            </li>
+            <li>
+          
+           </li>
+            <li>
+                <div class="tag_name">
+                    <a href="#">Discussion</a>
+                </div>
+                </li>
+        </ul>
+        <ul class="nav-right">
+           <li>
+            <form action="/search" method="GET">
+                <input type="text" placeholder="Search..." name="query" class="search-box">
+                <button type="submit" class="search-button">
+                    <i class="fas fa-search"></i>
+                    </button>
+                    </form>
+           </li>
+         
+                    <li class="profile-dropdown">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user"></i> 
+                           
+                        </div>
+                        <div class="dropdown-content-profile">
+                            <div class="tag_name">
+                                <a href="/profile">My Profile</a>
+                            </div>
+                            <div class="tag_name">
+                                <a href="/home_unregistered">Logout</a>
+                            </div>
+                            <div class="tag_name">
+                                <a href="#">Notifications</a>
+                            </div>
+                        </div>
+                      
+                    </li>
+                  
+        </ul>
+    </nav>
+    <div class="body_parts">
+    <div class="container">
+        -->
+        <!-- <div class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="#">Profile</a></li> -->
+                <!-- <li><a href="#">Contributions</a></li> -->
+                <!-- <li><a href="#">Enrolled Courses</a></li>
+                <li><a href="#">Certificates</a></li>
+                <li><a href="#">Progress</a></li> -->
+                <!-- <li><a href="#">Colleges</a></li> -->
+                <!-- <li><a href="#">Companies</a></li> -->
+                <!-- <li><a href="#">Account Settings</a></li>
+            </ul>
+        </div> -->
+
+       
+                            <!-- <div class="card">
+                                <div class="profile-photo">
+                                    <img src="https://via.placeholder.com/150" alt="Profile Picture">
+                                    <div class="edit-icon">&#9998;</div> 
+                                </div>
+                                <div class="profile-info">
+                                    <h2>Student</h2>
+                                    <div class="mail">
+                                        <i class="fas fa-user"></i>
+                                        <p>username</p>
+                                    </div>
+                                    <div class="mail">
+                                        <i class="fas fa-envelope"></i>
+                                        <p>email</p>
+                
+                                    </div>
+                                    <div class="section">
+                                        <h3>Enrolled Courses</h3>
+                                        <div class="course">
+                                            <p>Course 1: ABC</p>
+                                            <div class="progress-bar">
+                                                <div class="progress" style="width: 75%;"></div>
+                                            </div>
+                                            <span>75% completed</span>
+                                        </div>
+                                        <div class="course">
+                                            <p>Course 2: XYZ </p>
+                                            <div class="progress-bar">
+                                                <div class="progress" style="width: 50%;"></div>
+                                            </div>
+                                            <span>50% completed</span>
+                                        </div>
+                                    </div>
+                                    <div class="section">
+                                        <h3>Certificates</h3>
+                                        <ul>
+                                            <li>
+                                                <a href="#">Course name</a>
+                                               </li>
+                                            <li>
+                                                <a href="#">Course name</a>
+                                            </li>
+                                        </ul>
+                                    </div> -->
+                                    <!-- ************ -->
+                                    <!-- <div class="section">
+                                        <h3>Overall Progress</h3>
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 65%;"></div>
+                                        </div>
+                                        <span>65% overall progress</span>
+                                    </div>
+                        
+                                </div>
+                               
+                            </div>
+       </div>                     
+    </div>     
+</body>
+</html>  -->
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <ul class="nav-left">
+            <li>
+                <div class="tag_name">
+                    <a href="/">Home</a>
+                </div>
+            </li>
+            <li class="dropdown tag_name">
+                <a href="/courses" class="dropbtn">Courses</a>
+                <div class="dropdown-content">
+                    <a href="#">My Courses</a>
+                    <a href="/courses">Explore</a>
+                </div>
+            </li>
+            <li>
+                <div class="tag_name">
+                    <a href="#">Discussion</a>
+                </div>
+            </li>
+        </ul>
+        <ul class="nav-right">
+            <li>
+                <form action="/search" method="GET">
+                    <input type="text" placeholder="Search..." name="query" class="search-box">
+                    <button type="submit" class="search-button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </li>
+            <li class="profile-dropdown">
+                <div class="profile-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="dropdown-content-profile">
+                    <div class="tag_name">
+                        <a href="/profile">My Profile</a>
+                    </div>
+                    <div class="tag_name">
+                        <a href="/home_unregistered">Logout</a>
+                    </div>
+                    <div class="tag_name">
+                        <a href="#">Notifications</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <div class="body_parts">
+        <div class="container">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <h2>Menu</h2>
+                <ul>
+                    <li><a href="#">Profile</a></li>
+                    <li><a href="#">Enrolled Courses</a></li>
+                    <li><a href="#">Certificates</a></li>
+                    <li><a href="#">Progress</a></li>
+                    <li><a href="#">Account Settings</a></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="profile-photo">
+                    <img src="https://via.placeholder.com/150" alt="Profile Picture">
+                    <div class="edit-icon">&#9998;</div> <!-- Pen Icon -->
+                </div>
+                <div class="profile-info">
+                    <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+                    <div class="mail">
+                        <i class="fas fa-user"></i>
+                        <p>{{ user.username }}</p>
+                    </div>
+                    <div class="mail">
+                        <i class="fas fa-envelope"></i>
+                        <p>{{ user.email }}</p>
+                    </div>
+                    <div class="section">
+                        <h3>Enrolled Courses</h3>
+                        {% if enrollments %}
+                            <div class="course">
+                                {% for enrollment in enrollments %}
+                                    <p>
+                                        <a href="{% url 'course_detail' enrollment.course.id %}">{{ enrollment.course.course_name }}</a>
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: {{ enrollment.progress }}%;"></div>
+                                        </div>
+                                        <span>{{ enrollment.progress }}% completed</span>
+                                    </p>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p>No courses enrolled.</p>
+                        {% endif %}
+                    </div>
+                    <div class="section">
+                        <h3>Certificates</h3>
+                        <ul>
+                            {% if certificates %}
+                                {% for certificate in certificates %}
+                                    <li>
+                                        <a href="{{ certificate.certificate_url }}">Certificate for {{ certificate.course.course_name }}</a>
+                                    </li>
+                                {% endfor %}
+                            {% else %}
+                                <li>No certificates issued.</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h3>Overall Progress</h3>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: {{ overall_progress }}%;"></div>
+                        </div>
+                        <span>{{ overall_progress }}% overall progress</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

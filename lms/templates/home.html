@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Navbar Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <ul class="nav-left">
+           
+            <li>
+                <div class="tag_name">
+                    <a href="/">Home</a>
+                </div>
+               </li>
+               <li class="dropdown tag_name">
+                <a href="/courses" class="dropbtn">Courses</a>
+                <div class="dropdown-content">
+                    <a href="#">My Courses</a>
+                    
+                    <a href="/courses">Explore</a>
+                </div>
+            </li>
+            <li>
+            <!-- <div class="tag_name">
+                <a>About Us</a>
+            </div> -->
+           </li>
+            <li>
+                <div class="tag_name">
+                    <a href="/discussion">Discussion</a>
+                </div>
+                </li>
+        </ul>
+        <ul class="nav-right">
+           <li>
+            <form action="/search" method="GET">
+                <input type="text" placeholder="Search..." name="query" class="search-box">
+                <button type="submit" class="search-button">
+                    <i class="fas fa-search"></i>
+                    </button>
+                    </form>
+           </li>
+         
+                    <li class="profile-dropdown">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user"></i> <!-- Font Awesome user icon -->
+                           
+                        </div>
+                        <div class="dropdown-content-profile">
+                            <div class="tag_name">
+                                <a href="/profile">My Profile</a>
+                            </div>
+                            <div class="tag_name">
+                                <a href="/home_unregistered">Logout</a>
+                            </div>
+                            <div class="tag_name">
+                                <a href="#">Notifications</a>
+                            </div>
+                        </div>
+                      
+                    </li>
+                  
+        </ul>
+    </nav>
+
+    <section >
+        <div class="image">
+            <div class="intro_content">
+                <div class="head_intro">
+                    WELCOME TO THE MINDCRAFTER PLATFORM TO NOURISH YOUR LEARNING SKILLS
+                </div>
+                <!-- <button class="Enroll_Now">
+                 
+                        <a href="/register">ENROLL NOW</a>
+              
+                
+                </button> -->
+                <button class="Enroll_Now" onclick="window.location.href='/register';">
+                    ENROLL NOW
+                </button>
+               
+    
+            </div>     
+            </div>
+        <div class="feedback-section">
+        <div class="feedback-header">
+            <div> <h2>Over 2M Learners</h2></div>
+           
+            <div><p>Our learners benefit from our rich repository of courses and practice problems every day.</p></div>
+        </div>
+
+        <div class="feedback-cards">
+            <div class="feedback-card">
+                <i class="fas fa-quote-left"></i>
+                <p>Best learning platform </p>
+                <div class="rating">
+                    <span class="fas fa-star"></span>
+                    <span class="fas fa-star"></span>
+                    <span class="fas fa-star"></span>
+                    <span class="fas fa-star"></span>
+                    <span class="fas fa-star"></span>
+                </div>
+                <div class="user-info">
+                    <img src="https://via.placeholder.com/50" alt="User Photo">
+                    <div>
+                        <h4>ayushagrawal07</h4>
+                        <p>India</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feedback-card">
+                <i class="fas fa-quote-left"></i>
+                <p>Best learning platform</p>
+                <div class="rating">
+                    <span class="fas fa-star"></span>
+                    <span class="fas fa-star"></span>
+                    <span class="fas fa-star"></span>
+                    <span class="fas fa-star"></span>
+                    <span class="fas fa-star"></span>
+                </div>
+                <div class="user-info">
+                    <img src="https://via.placeholder.com/50" alt="User Photo">
+                    <div>
+                        <h4>hamidkhan18</h4>
+                        <p>India</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feedback-card">
+                <i class="fas fa-quote-left"></i>
+                <p>Best learning platform</p>
+                <div class="rating">
+                    <span class="fas fa-star"></span>
+                    <span class="fas fa-star"></span>
+                    <span class="fas fa-star"></span>
+                    <span class="fas fa-star"></span>
+                    <span class="fas fa-star-half-alt"></span>
+                </div>
+                <div class="user-info">
+                    <img src="https://via.placeholder.com/50" alt="User Photo">
+                    <div>
+                        <h4>anmol_6265</h4>
+                        <p>India</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+        <div class="stats-section">
+            <div class="stat-item">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <h2>500+</h2>
+                <p>Teachers</p>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-user-graduate"></i>
+                <h2>2000+</h2>
+                <p>Students</p>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-book"></i>
+                <h2>150+</h2>
+                <p>Courses</p>
+            </div>
+        </div>
+        <div class="learning-section">
+            <div class="content-wrapper">
+                <div class="image-container">
+                    <img src="https://img.freepik.com/premium-vector/two-people-are-engaged-studying-with-books-laptop-surrounded-by-plants-clock-two-people-studying-with-books-time_538213-140935.jpg" alt="Laptop showing learning dashboard">
+                </div>
+                <div class="text-container">
+                    <h1>Built for personalized learning.</h1>
+                    <p>
+                        Tailor your learning journeys to drive curiosity and motivate achievement.
+                        Deliver content natively to create a seamless and unified learning experience for everyone.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+    
+    </section>
+    <footer>
+        <div class="content-wrapper2">
+            <div class="image-container2">
+                <img src="https://media.istockphoto.com/id/1059510610/vector/it-communication-e-learning-internet-network-as-knowledge-base.jpg?s=612x612&w=0&k=20&c=QEyHx6JnZleLmW9lYgpzvLv765rizr__5zwwKylo300= " alt="Laptop showing learning dashboard">
+            </div>
+            <div class="text-container2">
+                <h1>Our Vision</h1>
+                <p>
+                    We aim to create a world where learning is not limited by boundaries. Through innovative tools, interactive learning resources, and a supportive community, MindCrafter empowers learners to take control of their educational journey, helping them succeed in a rapidly evolving world.
+                </p>
+            </div>
+        </div>
+        <div class="footer-container">
+            <div class="about-section">
+                <h2>About Us</h2>
+                <p>
+                    Welcome to MindCrafter, your trusted partner in online learning and personal growth. At MindCrafter, we believe that education is the foundation for unlocking your full potential. Our platform is designed to provide an engaging, accessible, and personalized learning experience that helps you build skills and knowledge at your own pace.
+
+                    Whether you're a student, professional, or lifelong learner, MindCrafter offers courses across a variety of disciplines, from technology to creative arts, enabling you to explore new subjects, upskill for your career, or pursue your passions.
+                </p>
+                <!-- <div class="logos">
+                    <img src="dukes-logo.png" alt="Dukes Education">
+                    <img src="nesac-logo.png" alt="NEASC">
+                    <img src="ib-logo.png" alt="IB">
+                    <img src="cis-logo.png" alt="CIS">
+                </div> -->
+            </div>
+
+            <div class="contact-section">
+                <h2>Contact</h2>
+                <p><strong>Address:</strong> Block 1, DivyaSree Omega Survey No 13, Kothaguda, Telangana 500084</p>
+                <p><strong>Phone:</strong> +91 9999999999</p>
+                <!-- <p><strong>WhatsApp:</strong> WhatsApp</p> -->
+                <p><strong>Email:</strong> <a href="Mincrafter2005@gmail.com">Mincrafter2005@gmail.com</a></p>
+                <p><strong>Join our team:</strong> <a href="mindcrafterhiring@gmail.com"></a>mindcrafterhiring@gmail.com</p>
+                <div class="social-icons">
+                   
+                        <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+                      
+                    <!-- <a href="#"><img src="instagram.png" alt="Instagram"></a>
+                    <a href="#"><img src="twitter.png" alt="Twitter"></a> -->
+                </div>
+            </div>
+        </div>
+       
+    </footer>
+    
+
+</body>
+</html>

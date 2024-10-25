@@ -1,0 +1,153 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #031b2f; 
+    /* background-color:yellow; */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 350px; /* Adjust width as needed */
+}
+
+.heading {
+    text-align: center;
+    color: #c8d7e1; /* Blue heading color */
+    margin-bottom: 20px;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    display:flex;
+justify-content:space-evenly;
+
+}
+.input-group input{
+    width:auto;
+    
+}
+.role_group{
+    display:flex;
+     justify-content:center;
+    align-items:center;
+    width:100px;
+   
+    /* padding:10px;
+    height:40px;  */
+    /* background-color: red;; */
+}
+
+.role_combined{
+    display:flex;
+justify-content: space-between;
+
+}
+label {
+    display:flex;
+    flex-direction: row;
+
+    
+    margin-bottom: 5px;
+    color: white; 
+    padding:10px;
+    /* border:2px solid white; */
+    width:120px;
+    
+    /* White text for labels */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"]{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    height:30px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.submit-button {
+    background-color: #3498db; /* Submit button color */
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    flex: 1; /* Allow button to grow */
+    margin-right: 10px; /* Space between buttons */
+}
+
+.submit-button:hover {
+    background-color: #2980b9; /* Darker shade on hover */
+}
+
+.reset-button {
+    background-color: #ccc; /* Reset button color */
+    color: black;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    flex: 1; /* Allow button to grow */
+}
+
+.reset-button:hover {
+    background-color: #aaa; /* Darker shade on hover */
+}
+
+.bottom a{
+
+    color:white;
+    font-size:12px;
+    text-decoration: none;
+    /* background-color:red; */
+}
+
+.messages {
+    margin: 20px 0; /* Space above and below the messages */
+    padding: 10px;  /* Space inside the message box */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow */
+    background-color:red;
+}
+
+.alert {
+    color: #fff; /* Text color */
+    /* background-color: #007bff; Bootstrap primary color */
+    padding: 10px; /* Padding for the alert */
+    border-radius: 5px; /* Rounded corners for alert */
+    margin-bottom: 10px; /* Space between alerts */
+    background-color:red;
+}
+
+/* Optional: Different colors for error messages */
+.messages .alert.error {
+    background-color: #dc3545; /* Bootstrap danger color */
+}
+
+/* Optional: Different colors for success messages */
+.messages .alert.success {
+    background-color: #28a745; /* Bootstrap success color */
+}

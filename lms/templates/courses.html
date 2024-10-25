@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Navbar Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/courses.css' %}">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <ul >
+           
+            <li>
+                <div class="tag_name">
+                    <a href="/">Home</a>
+                </div>
+               </li>
+               <li class="dropdown tag_name">
+                <a href="/courses" class="dropbtn">Courses</a>
+                <div class="dropdown-content">
+                    <a href="#">My Courses</a>
+                    
+                    <a href="/courses">Explore</a>
+                </div>
+            </li>
+           
+            <li>
+                <div class="tag_name">
+                    <a href="/discussion">Discussion</a>
+                </div>
+                </li>
+        <!-- </ul>
+        <ul class="nav-right"> -->
+           <li>
+            <form action="/search" method="GET">
+                <input type="text" placeholder="Search..." name="query" class="search-box">
+                <button type="submit" class="search-button">
+                    <i class="fas fa-search"></i>
+                    </button>
+                    </form>
+           </li>
+         
+                    <li class="profile-dropdown">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user"></i> <!-- Font Awesome user icon -->
+                           
+                        </div>
+                        <div class="dropdown-content-profile">
+                            <div class="tag_name">
+                                <a href="/profile">My Profile</a>
+                            </div>
+                            <div class="tag_name">
+                                <a href="/home_unregistered">Logout</a>
+                            </div>
+                            <div class="tag_name">
+                                <a href="#">Notifications</a>
+                            </div>
+                        </div>
+                      
+                    </li>
+                  
+        </ul>
+    </nav>
+
+    <section class="content">
+        <div class="about_courses">
+        <!-- <div class="course_names">
+            <div class="intro_image"></div>
+            <div class="course_details">
+                <div>An ultimate course for C++, provides hands on experience in stl,object oriented programming and many more</div>
+                <button class="Explore">Explore</button>
+            </div>
+        </div>
+        <div class="course_names">
+            <div class="intro_image2"></div>
+            <div class="course_details">
+                <div>An ultimate course for C++, provides hands on experience in stl,object oriented programming and many more</div>
+                <button class="Explore">Explore</button>
+            </div>
+        </div>
+        <div class="course_names">
+            <div class="intro_image3"></div>
+            <div class="course_details">
+                <div>An ultimate course for C++, provides hands on experience in stl,object oriented programming and many more</div>
+                <button class="Explore">Explore</button>
+            </div>
+        </div>
+        <div class="course_names">
+            <div class="intro_image4"></div>
+            <div class="course_details">
+                <div>An ultimate course for C++, provides hands on experience in stl,object oriented programming and many more</div>
+                <button class="Explore">Explore</button>
+            </div>
+        </div>
+        <div class="course_names">
+            <div class="intro_image3"></div>
+            <div class="course_details">
+                <div>An ultimate course for C++, provides hands on experience in stl,object oriented programming and many more</div>
+                <button class="Explore">Explore</button>
+            </div>
+        </div>
+        <div class="course_names">
+            <div class="intro_image3"></div>
+            <div class="course_details">
+                <div>An ultimate course for C++, provides hands on experience in stl,object oriented programming and many more</div>
+                <button class="Explore">Explore</button>
+            </div>
+        </div> -->
+
+        {% for course in courses %}
+<div class="course_names">
+    <div class="intro_image" style="background-image: url('{{ course.image_url }}');">
+    </div>
+    <div class="course_details">
+        <h3>{{ course.name }}</h3>
+        <p>{{ course.course_description }}</p>
+        <button class="Explore">Explore</button>
+    </div>
+</div>
+{% endfor %}
+
+    </div>
+    </section>
+
+</body>
+</html>
