@@ -1,51 +1,57 @@
+
+
+<!-- course_detail.html -->
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Page</title>
+    <title>{{ course.title }} - Course Details</title>
     <link rel="stylesheet" href="{% static 'css/course_details.css' %}">
 </head>
 <body>
+
     <div class="container">
-        <!-- Navigation -->
-        <div class="navigation">
-            <a href="#">IIT JEE</a>
-            <a href="#">Plus</a>
-            <a href="#">Syllabus</a>
-            <a href="#">Mathematics</a>
+        <!-- Sidebar with Lessons -->
+        <div class="sidebar">
+            <h3>Lessons</h3>
+            <ul>
+                {% for lesson in lessons %}
+                    <li>
+                        <a href="#" onclick="loadLesson('{{lesson.lesson_id}}')" class="{% if lesson == initial_lesson %}active{% endif %}">
+                            {{ lesson.position }}. {{ lesson.lesson_title }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
-
-        <!-- Course Info Section -->
-        <div class="course-section">
-            <img src="teacher.jpg" alt="Teacher Image" class="teacher-img">
-            <div class="course-details">
-                <p class="lang">HINGLISH</p>
-                <h1>Master Course on Quadratic Equation for Droppers - 2025</h1>
-                <p class="teacher">Om Sharma</p>
-                <p class="course-desc">
-                    In this course, Om Sharma Sir will cover Mathematics from Quadratic Equations. 
-                    It will be helpful for students preparing for the JEE MAIN and JEE ADVANCED Exams. 
-                    Each class is of 90 minutes...
-                </p>
+    
+        <!-- Main Content Area -->
+        <div class="content">
+            <div id="lesson-container">
+                <h2 id="lesson-title">{{ initial_lesson.lesson_title }}</h2>
+                <video id="lesson-video" width="100%" controls>
+                    <source src="{{ initial_lesson.video_url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <p id="lesson-description">{{ initial_lesson.lesson_description }}</p>
             </div>
-            <div class="course-actions">
-                <p class="ended-date">Ended on May 10</p>
-                <p class="lessons">10 lessons</p>
-                <p class="practices">0 practices</p>
-                <button class="renew-btn">Renew subscription</button>
-                <button class="share-btn">Share</button>
-            </div>
-        </div>
-
-        <!-- Demo Classes Section -->
-        <div class="demo-classes">
-            <h2>Demo Classes</h2>
-            <p>Watch free classes by the educators of this batch</p>
-            <img src="teacher-demo.jpg" alt="Teacher Demo" class="demo-img">
         </div>
     </div>
-</body>
+    
+    <script>
+        // JavaScript to dynamically load lesson content
+        function loadLesson(lessonId) {
+            fetch(`/get_lesson/${lessonId}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('lesson-title').innerText = data.title;
+                    document.getElementById('lesson-video').src = data.video_url;
+                    document.getElementById('lesson-description').innerText = data.description;
+                });
+        }
+    </script>
+    
+    </body> 
 </html>
-c

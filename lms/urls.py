@@ -17,7 +17,8 @@ urlpatterns = [
 
     path('courses/',views.courses,name='courses'),
 
-    path('course_details/',views.course_details,name='course_details'),
+    path('course/', views.course_details, name='course_details'),
+    
 
     path('admin_view/',views.admin_view,name='admin_view'),
 
@@ -27,6 +28,9 @@ urlpatterns = [
 
     path('student_enrollments/',views.student_enrollments,name='student_enrollments'),
 
-    # path('certificates/',views.certificates,name='certificates')
+    # path('certificates/',views.certificates,name='certificates'),
+     path('enroll/<int:course_id>/', views.enroll_in_course, name='enroll_in_course'),
+    path('lesson/<int:lesson_id>/', views.visit_lesson, name='visit_lesson'),
+    path('my-courses/', views.my_courses, name='my_courses'),
 
 ]

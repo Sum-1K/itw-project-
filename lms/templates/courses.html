@@ -116,9 +116,14 @@
     <div class="intro_image" style="background-image: url('{{ course.image_url }}');">
     </div>
     <div class="course_details">
-        <h3>{{ course.name }}</h3>
+        <h3>{{ course.course_name }}</h3>
         <p>{{ course.course_description }}</p>
-        <button class="Explore">Explore</button>
+        {% if course.course_id %}
+    <a href="{% url 'enroll_in_course' course.course_id %}" class="Explore">Explore</a>
+{% else %}
+    <p>ID not available</p>
+{% endif %}
+      
     </div>
 </div>
 {% endfor %}

@@ -88,7 +88,7 @@ class User(AbstractBaseUser, PermissionsMixin):  # Inherit from AbstractBaseUser
 #         return self.username
 
 class Course(models.Model):
-    course_id=models.AutoField(primary_key=True,default=1)
+    course_id=models.AutoField(primary_key=True)
     course_name = models.CharField(max_length=100)
     course_description = models.TextField(null=True, blank=True)
     image_url = models.URLField(max_length=200, null=True, blank=True)
@@ -101,6 +101,7 @@ class Course(models.Model):
         return self.course_name
 
 class Lesson(models.Model):
+    lesson_id = models.AutoField(primary_key=True) 
     lesson_title = models.CharField(max_length=100)
     lesson_description = models.TextField(null=True, blank=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE,null=True,blank=True)

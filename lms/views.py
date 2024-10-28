@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login 
@@ -11,7 +11,7 @@ from django.core.validators import validate_email
 import re
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
-from .models import Enrollment, User
+from .models import Enrollment, User,Lesson
 from .models import Course
 
 
@@ -283,8 +283,18 @@ def admin_view(request):
 
 
 @login_required
-def course_details(request):
-     return render(request,'course_details.html')
+def course_details(request,course_id):
+    print("view called")
+     
+    course = get_object_or_404(Course, id=course_id)
+    lessons = Lesson.objects.filter(course=course).order_by('position')  # Order by position
+    initial_lesson = lessons.first()  # Default to the first lesson based on position
+    print("reached halfway")
+    return render(request, 'course_detail.html', {
+        'course': course,
+        'lessons': lessons,
+        'initial_lesson': initial_lesson,
+    })
      
 def home_unregistered(request):
      return render(request,'home_unregistered.html')
@@ -300,3 +310,42 @@ def student_enrollments(request):
 
 # def certificates(request):
 #     return render(request,'certificates.html')
+
+
+@login_required
+def enroll_in_course(request, course_id):
+    print(course_id)
+    course = get_object_or_404(Course, id=course_id)
+    enrollment, created = Enrollment.objects.get_or_create(user=request.user, course=course)
+
+    if created:
+        # Enrollment was successful
+        messages.success(request, "You have successfully enrolled in the course!")
+    else:
+        # User is already enrolled
+        messages.info(request, "You are already enrolled in this course.")
+
+    return redirect('home')
+
+@login_required
+def visit_lesson(request, lesson_id):
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+    enrollment = get_object_or_404(Enrollment, user=request.user, course=lesson.course)
+
+    # Update progress
+    total_lessons = lesson.course.lesson_set.count()
+    visited_lessons = enrollment.progress * total_lessons  # Assuming progress is a float value (0.0 to 1.0)
+    
+    # Increment visited lessons count
+    visited_lessons += 1
+
+    # Calculate new progress
+    new_progress = visited_lessons / total_lessons
+    enrollment.progress = new_progress
+    enrollment.save()
+
+    return render(request, 'lesson_detail.html', {'lesson': lesson, 'enrollment': enrollment})
+
+def my_courses(request):
+    enrollments = Enrollment.objects.filter(user=request.user)
+    return render(request, 'my_courses.html', {'enrollments': enrollments})

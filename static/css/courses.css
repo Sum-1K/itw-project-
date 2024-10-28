@@ -215,7 +215,10 @@ body {
 }
 .about_courses{
     display:flex;
+    
+    flex-wrap:wrap;
 gap:180px;
+width:1600px;
 }
 .course_names{
     display:flex;
@@ -247,62 +250,8 @@ display:block;
 
 
 }
-.intro_image2{
-    background-image: url("https://cdn.wccftech.com/wp-content/uploads/2019/07/C.jpg");
-    background-repeat: no-repeat;
-display:block;    
-    background-size: cover; /* Make the image cover the entire container */
-    background-position: center; /* Center the image */
-    width:350px;
-    height: 250px; /* Full viewport height */
-    /* border-radius:10px; */
-    margin-top:10px;
-    border-top-right-radius: 20px;
-    border-top-left-radius: 20px;
-    margin: 0; /* Ensure no margin */
-    padding: 0; /* Remove any padding */
-    /* border:2px solid black; */
-    /* padding:10px; */
 
-}
-.intro_image3{
-    background-image: url("https://granulate.io/wp-content/uploads/2021/02/Golang-Performance-510x300-1.png");
-    background-repeat: no-repeat;
-display:block;    
-    background-size: cover; /* Make the image cover the entire container */
-    background-position: center; /* Center the image */
-    width:350px;
-    height: 250px; /* Full viewport height */
-    /* border-radius:10px; */
-    margin-top:10px;
-    border-top-right-radius: 20px;
-    border-top-left-radius: 20px;
-    margin: 0; /* Ensure no margin */
-    padding: 0; /* Remove any padding */
-    /* border:2px solid black; */
-    /* padding:10px; */
 
-}
-.intro_image4{
-    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWkJ5CxVqaL_9yZ63XhRMH0SeBbDZRYBKRFw&s");
-    background-repeat: no-repeat;
-display:block;    
-    background-size: cover; /* Make the image cover the entire container */
-    background-position: center; /* Center the image */
-    width:350px;
-    height: 250px; /* Full viewport height */
-    /* border-radius:10px; */
-    margin-top:10px;
-    border-top-right-radius: 20px;
-    border-top-left-radius: 20px;
-    margin: 0; /* Ensure no margin */
-    padding: 0; /* Remove any padding */
-    /* border:2px solid black; */
-    /* padding:10px; */
-}
-.intro_image5{
-    
-}
 .Explore{
     width:200px;
     height:35px;
@@ -311,6 +260,7 @@ display:block;
     border-radius:10px;
     font-weight:bold;
     cursor:pointer;
+  
 
 }
 .course_details{
@@ -319,7 +269,7 @@ display:block;
     width:300px;
     margin-top:10px;
     padding:10px;
-    height:150px;
+    height:auto;
     line-height:30px;
     font-size:16px;
     gap:20px;
