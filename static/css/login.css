@@ -1,5 +1,9 @@
+
+*{
+    font-family: "Quicksand", sans-serif;
+}
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Quicksand", sans-serif;
     background-color: #f0f0f0;
     display: flex;
     justify-content: center;
@@ -21,7 +25,9 @@ body {
     text-align: center;
     color: #133d71; /* Heading color */
     margin-bottom: 20px;
+    font-weight:bold;
 }
+
 
 .login-form {
     display: flex;

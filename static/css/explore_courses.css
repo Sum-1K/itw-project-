@@ -1,21 +1,24 @@
-
+/* General Styling */
 
 
 
 *{
-  font-family: 'Oxygen', sans-serif;
+    font-family: "Quicksand", sans-serif;
 }
 
 
+
+
+
+
 body {
-    background: #fafafa;
-    color: #333333;
-    margin-top: 5rem;
-    font-family: 'Oxygen', sans-serif;
-  }
+    margin: 0;
+    font-family: "Quicksand", sans-serif;
+    /* background-color: #da6b6b; */
+}
 
-
-  .nav-left{
+/* Navbar Styling */
+.nav-left{
     justify-content: space-evenly;
     /* width:800px; */
 
@@ -53,7 +56,7 @@ body {
     color: white;
     text-decoration: none;
     padding: 14px 30px;
-    width:100px;
+    width:250px;
     display: block;
     padding:10px;
     font-size:16px;
@@ -73,9 +76,9 @@ body {
 .dropdown-content {
     display: none; /* Hidden by default */
     position: absolute;
-    
     /* background-color: red; */
-    color: black; /* Ensure the text is black */
+     /* Ensure the text is black */
+     background-color:black;
     min-width: 160px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
@@ -89,32 +92,27 @@ body {
 }
 
 .dropdown-content a {
-    color: black !important; /* Ensure black text */
+    color: rgb(205, 226, 236) !important; /* Ensure black text */
     /* font-size:15px !important; */
+    background-color:black!important;
     font-size: 16px;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
     text-align: left;
     border-radius:10px;
-    width:150px !important;
-    height:35px!important;
-    
     
 }
 
 .dropdown-content a:hover {
-    background-color:rgb(210, 207, 207) !important; /* Force background to white */
+    background-color:rgb(153, 221, 241) !important; /* Force background to white */
     cursor:pointer;
-    
     color: black !important; /* Ensure text is black on hover */
     /* border-radius:20px; */
 }
 
 .dropdown:hover .dropdown-content {
-    display: flex;
-    flex-direction:column;
-    justify-content:center;
+    display: block;
     cursor:pointer;
 }
 .dropdown-content-profile{
@@ -122,7 +120,8 @@ body {
      /* Hidden by default */ 
     position: absolute;
     /* background-color: red; */
-    color: black; /* Ensure the text is black */
+     /* Ensure the text is black */
+     background-color:black;
     min-width: 160px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
@@ -132,36 +131,30 @@ body {
 
 }
 .dropdown-content-profile a {
-    color: black !important; /* Ensure black text */
+    color: rgb(206, 230, 236) !important; /* Ensure black text */
     /* font-size:15px !important; */
+    background-color:black!important;
     font-size: 16px;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
     text-align: left;
     border-radius:10px;
-    width:150px !important;
-    height:35px!important;
-    
     
 }
 .dropdown-content-profile a:hover {
-    background-color:rgb(210, 207, 207) !important; /* Force background to white */
+    background-color:rgb(160, 237, 244) !important; /* Force background to white */
     color: black !important; /* Ensure text is black on hover */
     /* border-radius:20px; */
-    
 }
 .profile-dropdown:hover .dropdown-content-profile {
-    display: flex;
-    flex-direction:column;
-    justify-content:center;
-    cursor:pointer;
+    display: block;
 
 }
 
 
-
-.nav-right {
+/* Right-side profile menu */
+/* .nav-right {
     display: flex;
     margin-left: auto;
 }
@@ -169,17 +162,17 @@ body {
     display:flex;
     justify-content: space-evenly;
 
-} 
+}  */
 
- .nav-right li {
+ /* .nav-right li {
     margin-right: 20px;
-}
+} */
 
 /* Content Section */
 .content {
-    /* margin-top: 100px; */
+    margin-top: 100px;
     text-align: center;
-    /* padding: 50px; */
+    padding: 50px;
 }
 .search-container {
     display: flex;
@@ -236,167 +229,72 @@ body {
     background-color:#75aded;
     cursor:pointer;
 }
-
-
-
-
-.discussion_forum{
-    font:18px;
+.about_courses{
+    display:flex;
     
-}
-  
-  h1, h2, h3, h4, h5, h6 {
-    color: #444444;
-  }
-  
-  ul {
-margin: 0;
-  }
-  
-  .bg-steel {
-    background-color: #5f788a;
-  }
-  
-  .site-header .navbar-nav .nav-link {
-    color: #cbd5db;
-  }
-  
-  .site-header .navbar-nav .nav-link:hover {
-    color: #ffffff;
-  }
-  
-  .site-header .navbar-nav .nav-link.active {
-    font-weight: 500;
-  }
-  
-  .content-section {
-    background: #ffffff;
-    margin-top: 10px;
-    padding: 10px 10px;
-    border: 1px solid #dddddd;
-    max-width: 90%;
-    width: fit-content;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    margin-bottom: 15px;
-    margin-left: 10px;
-
-  }
-  
-  .article-title {
-    color: #444444;
-  }
-  
-  .article-title:hover {
-    color: #428bca;
-    text-decoration: none;
-  }
-  
-  .article-content {
-    white-space: pre-line;
-  }
-  
-  .article-img {
-    height: 65px;
-    width: 65px;
-    margin-right: 16px;
-  }
-  
-  .article-metadata {
-    padding-bottom: 1px;
-    margin-bottom: 4px;
-    border-bottom: 1px solid #e3e3e3
-  }
-  
-  .article-metadata a:hover {
-    color: #333;
-    text-decoration: none;
-  }
-  
-  .article-svg {
-    width: 25px;
-    height: 25px;
-    vertical-align: middle;
-  }
-  
-  .account-img {
-    height: 125px;
-    width: 125px;
-    margin-right: 20px;
-    margin-bottom: 16px;
-  }
-  
-  .account-heading {
-    font-size: 2.5rem;
-  }
-
-  #chat-container
-{
-    left: -15px;
-    padding: 0px;
-
-    position: relative;
-    top: 10px;
-    width: 700px;
-    
-    background-color: paleturquoise;
-    overflow: hidden;
-    margin: 0px auto;
-    border-radius: 5px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-} 
-
-.chat-header
-{
-    position: sticky;
-    top: 0px;
-    background-color: rgb(105, 103, 241);
-    
-     /* White text color */
-    color: white;
-    text-decoration: none;
-    padding: 10px;
-    text-align: left;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    z-index: 1000;
-} 
-
-.typing-box {
-    display: flex; /* Align items horizontally */
-    padding: 10px; /* Space around the form */
-    background-color: #f8f9fa; /* Light background color for typing box */
-    border: 1px solid #ddd; /* Border to define the area */
-    border-radius: 5px; /* Rounded corners */
-    height:50px;
-    width:auto;
+    flex-wrap:wrap;
+gap:180px;
+width:1600px;
 }
 
-.typing-box input {
-    flex: 1; /* Make the input take up the available space */
-    margin-right: 10px; /* Space between input and button */
+.course_names{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    /* border:2px solid black; */
+    border-radius:20px;
+    box-shadow:0 0 30px 0px ;
+    width:350px;
+    height:400px;
+}
+.intro_image{
+    background-image: url("https://miro.medium.com/v2/resize:fit:1400/1*oFfl-1UKLtd8XOswpwgriA.png");
+    background-repeat: no-repeat;
+display:block;    
+    background-size: cover; /* Make the image cover the entire container */
+    background-position: center; /* Center the image */
+    width:350px;
+    height: 250px; /* Full viewport height */
+    /* border-radius:10px; */
+    margin-top:10px;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    margin: 0; /* Ensure no margin */
+    padding: 0; /* Remove any padding */
+    /* border:2px solid black; */
+    /* padding:10px; */
+
+
 }
 
-.typing-box button {
-    /* Add any additional styles for the button here */
-    background-color: rgb(75, 154, 75);
-    width:80px;
-    height:auto;
-    border-radius:10px;
-    font-size:20px;
+
+.Explore{
+    width:200px;
+    height:35px;
+    background-color:black;
     color:white;
-    border:2px solid black;
-}
-
-.typing-box button:hover{
-
-    background-color:#428bca;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
     text-decoration:none;
-    /* width:73px;
-    height:53px; */
 
+  
 
-
+}
+.course_details{
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
+    width: 100%; 
+    padding: 10px;
+    height: auto;
+    line-height: 30px;
+    font-size: 16px;
+  
+    margin-top:-33px;
+}
+.name{
+    margin:20px;
 }

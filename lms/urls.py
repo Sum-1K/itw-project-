@@ -17,7 +17,8 @@ urlpatterns = [
 
     path('courses/',views.courses,name='courses'),
 
-    path('course/', views.course_details, name='course_details'),
+    path('course_details/<int:course_id>/', views.course_details, name='course_details'),
+    path('course/<int:course_id>/lesson/<int:lesson_id>/', views.course_details, name='course_details_lesson'),
     
 
     path('admin_view/',views.admin_view,name='admin_view'),
@@ -30,7 +31,12 @@ urlpatterns = [
 
     # path('certificates/',views.certificates,name='certificates'),
      path('enroll/<int:course_id>/', views.enroll_in_course, name='enroll_in_course'),
-    path('lesson/<int:lesson_id>/', views.visit_lesson, name='visit_lesson'),
-    path('my-courses/', views.my_courses, name='my_courses'),
+    # path('lesson/<int:lesson_id>/', views.visit_lesson, name='visit_lesson'),
+     path('my_courses/', views.my_courses, name='my_courses'),
+
+    path('certificates/',views.certificates,name='certificates'),
+    path('certificates/certificate_view/<int:certificate_id>',views.certificate_view,name='certificate_view'),
+    path('logout/', views.logout_view, name='logout'),
+    
 
 ]

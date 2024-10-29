@@ -4,16 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Black Navbar Website</title>
+    <title>My Courses</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'css/explore_courses.css' %}">
+    <link rel="stylesheet" href="{% static 'css/courses_my.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Oxygen:wght@300;400;700&family=Quicksand:wght@300..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Navbar -->
     <nav class="navbar">
         <ul class="nav-left">
             <li>
@@ -73,74 +72,45 @@
         </ul>
     </nav>
 
+    
     <section class="content">
+        <h2 class="head">My Courses</h2>
         <div class="about_courses">
-        <!-- <div class="course_names">
-            <div class="intro_image"></div>
-            <div class="course_details">
-                <div>An ultimate course for C++, provides hands on experience in stl,object oriented programming and many more</div>
-                <button class="Explore">Explore</button>
+            <!-- {% for enrollment in enrollments %}
+            <div class="course_names">
+                <div class="intro_image" style="background-image: url('{{ enrollment.course.image_url }}');">
+                </div>
+                <div class="course_details">
+                    <h3>{{ enrollment.course.course_name }}</h3>
+                    <p>{{ enrollment.course.course_description }}</p>
+                    <a href="{% url 'course_details' enrollment.course.course_id %}" class="Explore">Continue Learning</a>
+                 
+                </div>
             </div>
-        </div>
-        <div class="course_names">
-            <div class="intro_image2"></div>
-            <div class="course_details">
-                <div>An ultimate course for C++, provides hands on experience in stl,object oriented programming and many more</div>
-                <button class="Explore">Explore</button>
-            </div>
-        </div>
-        <div class="course_names">
-            <div class="intro_image3"></div>
-            <div class="course_details">
-                <div>An ultimate course for C++, provides hands on experience in stl,object oriented programming and many more</div>
-                <button class="Explore">Explore</button>
-            </div>
-        </div>
-        <div class="course_names">
-            <div class="intro_image4"></div>
-            <div class="course_details">
-                <div>An ultimate course for C++, provides hands on experience in stl,object oriented programming and many more</div>
-                <button class="Explore">Explore</button>
-            </div>
-        </div>
-        <div class="course_names">
-            <div class="intro_image3"></div>
-            <div class="course_details">
-                <div>An ultimate course for C++, provides hands on experience in stl,object oriented programming and many more</div>
-                <button class="Explore">Explore</button>
-            </div>
-        </div>
-        <div class="course_names">
-            <div class="intro_image3"></div>
-            <div class="course_details">
-                <div>An ultimate course for C++, provides hands on experience in stl,object oriented programming and many more</div>
-                <button class="Explore">Explore</button>
-            </div>
-        </div> -->
+            {% empty %}
+            <p>No courses enrolled yet.</p>
+            {% endfor %} -->
+            {% for data in progress_data %}
+            <div class="course_names">
+                <div class="intro_image" style="background-image: url('{{ data.course.image_url }}');">
+                </div>
+                <div class="course_details">
+                    <h3 class="name">{{ data.course.course_name }}</h3>
+                    <p>{{ data.course.course_description }}</p>
+                    <a href="{% url 'course_details' data.course.course_id %}" class="Explore">Continue Learning</a>
 
-        {% for course in courses %}
-<div class="course_names">
-    <div class="intro_image" style="background-image: url('{{ course.image_url }}');">
-    </div>
-    <div class="course_details">
-        <h3 class="name">{{ course.course_name }}</h3>
-        <p>{{ course.course_description }}</p>
-        {% if course.course_id %}
-        {% if user.is_authenticated %}
-        <a href="{% url 'enroll_in_course' course.course_id %}" class="Explore">Enroll now</a>
-    {% else %}
-        <a href="{% url 'register' %}" class="Explore">Register to Enroll</a>
-    {% endif %}
-{% else %}
-    <p>ID not available</p>
-{% endif %}
-      
-    </div>
-</div>
-{% endfor %}
-
-    </div>
+                    <!-- Progress Bar -->
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: {{ data.progress_percentage }}%;">
+                            {{ data.progress_percentage|floatformat:1 }}%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No courses enrolled yet.</p>
+            {% endfor %}
+        </div>
     </section>
-
 </body>
 </html>

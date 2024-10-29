@@ -1,27 +1,23 @@
-/* General Styling */
+*{
+    font-family: "Quicksand", sans-serif;
+}
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    
+    background-color: white;
 }
 
 /* Navbar Styling */
-.nav-left{
-    justify-content: space-evenly;
-    /* width:800px; */
 
-    
-  
-    
-}
 
 .navbar {
     display: flex;
     justify-content: space-around;
    
     align-items: center;
-    background-color: black;
-    padding: 10px 30px;
+    background-color: rgb(0, 0, 0);
+   
+    /* padding: 10px 30px; */
     position: fixed;
     top: 0;
     width: 100%;
@@ -37,14 +33,14 @@ body {
 
 .navbar ul li {
     position: relative;
-    margin-right: 20px;
+    margin-right: 100px;
 }
 
 .navbar ul li a {
     color: white;
     text-decoration: none;
     padding: 14px 30px;
-    width:250px;
+    width:100px;
     display: block;
     padding:10px;
     font-size:16px;
@@ -64,6 +60,7 @@ body {
 .dropdown-content {
     display: none; /* Hidden by default */
     position: absolute;
+    
     /* background-color: red; */
     color: black; /* Ensure the text is black */
     min-width: 160px;
@@ -87,18 +84,24 @@ body {
     display: block;
     text-align: left;
     border-radius:10px;
+    width:150px !important;
+    height:35px!important;
+    
     
 }
 
 .dropdown-content a:hover {
     background-color:rgb(210, 207, 207) !important; /* Force background to white */
     cursor:pointer;
+    
     color: black !important; /* Ensure text is black on hover */
     /* border-radius:20px; */
 }
 
 .dropdown:hover .dropdown-content {
-    display: block;
+    display: flex;
+    flex-direction:column;
+    justify-content:center;
     cursor:pointer;
 }
 .dropdown-content-profile{
@@ -124,80 +127,33 @@ body {
     display: block;
     text-align: left;
     border-radius:10px;
+    width:150px !important;
+    height:35px!important;
+    
     
 }
 .dropdown-content-profile a:hover {
     background-color:rgb(210, 207, 207) !important; /* Force background to white */
     color: black !important; /* Ensure text is black on hover */
     /* border-radius:20px; */
+    
 }
 .profile-dropdown:hover .dropdown-content-profile {
-    display: block;
-
-}
-
-
-/* Right-side profile menu */
-/* .nav-right {
     display: flex;
-    margin-left: auto;
+    flex-direction:column;
+    justify-content:center;
+    cursor:pointer;
+
 }
-.nav-left{
-    display:flex;
-    justify-content: space-evenly;
 
-}  */
-
- /* .nav-right li {
-    margin-right: 20px;
-} */
 
 /* Content Section */
 .content {
-    margin-top: 100px;
+    /* margin-top: 100px; */
     text-align: center;
-    padding: 50px;
-}
-.search-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.search-box {
-    padding: 10px;
-    font-size: 16px;
-    border: 2px solid #ccc;
-    border-radius: 5px 0 0 5px;
-    outline: none;
-    width: 200px;
-}
-.search-button {
-    padding: 10px 15px;
-    font-size: 16px;
-    border: none;
-    background-color: #333;
-    color: white;
-    border-radius: 0 5px 5px 0;
-    cursor: pointer;
-}
-.tag_name{
-    display:flex;
-    justify-content:center;
-    text-align:center;
-}
-.search-button i {
-    margin-right: 0; /* Align the icon inside the button */
+    /* padding: 50px; */
 }
 
-.search-button:hover {
-    background-color: #555;
-    cursor:pointer;
-}
-
-/* Style the input box when focused */
-.search-box:focus {
-    border-color: #333;
-}
 .profile-avatar {
     width: 40px;        /* Adjust the size as needed */
     height: 40px;       /* Adjust the size as needed */
@@ -205,6 +161,7 @@ body {
     background-color: #99c3f3; /* Background color for the avatar */
     display: flex;
     justify-content: center;
+    margin-left:0px;
     align-items: center;
     color: white;        /* Icon color */
     font-size: 20px;     /* Adjust icon size as needed */
@@ -213,66 +170,100 @@ body {
     background-color:#75aded;
     cursor:pointer;
 }
-.about_courses{
-    display:flex;
-    
-    flex-wrap:wrap;
-gap:180px;
-width:1600px;
-}
-.course_names{
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    /* border:2px solid black; */
-    border-radius:20px;
-    box-shadow:0 0 30px 0px ;
-    width:350px;
-    height:400px;
-}
-.intro_image{
-    background-image: url("https://miro.medium.com/v2/resize:fit:1400/1*oFfl-1UKLtd8XOswpwgriA.png");
-    background-repeat: no-repeat;
-display:block;    
-    background-size: cover; /* Make the image cover the entire container */
-    background-position: center; /* Center the image */
-    width:350px;
-    height: 250px; /* Full viewport height */
-    /* border-radius:10px; */
-    margin-top:10px;
-    border-top-right-radius: 20px;
+
+.certificate-container{
+    background: #ffffff;
+    /* background-color: red;; */
+    margin-top: 60px;
+    padding: 10px 10px;
+    border: 1px solid #dddddd;
+    left: 100px;
+    width: 1000px;
     border-top-left-radius: 20px;
-    margin: 0; /* Ensure no margin */
-    padding: 0; /* Remove any padding */
-    /* border:2px solid black; */
-    /* padding:10px; */
-
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    margin-bottom: 15px;
+    margin-left: 10px;
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2); 
 
 }
-
-
-.Explore{
-    width:200px;
-    height:35px;
-    background-color:black;
-    color:white;
-    border-radius:10px;
+.stu_name{
     font-weight:bold;
-    cursor:pointer;
-  
-
+    font-size:1.5rem;
+    color:rgb(29, 101, 179)
 }
-.course_details{
-    display:flex;
-    flex-direction: column;
-    width:300px;
-    margin-top:10px;
-    padding:10px;
-    height:auto;
-    line-height:30px;
-    font-size:16px;
-    gap:20px;
+.no_certi{
+    text-align:center;
+    font-size:3rem;
+    font-weight:bold;
+    margin-top:50px;
+    
+}
+
+.article-metadata {
+    padding-bottom: 1px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #e3e3e3
+  }
+
+.container{
+    display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 400px;
+}
+
+.black-container{
+    position:absolute;
+    margin-top: 200px ;
+    /* display:flex;
+    justify-content:center;
+    align-items:center; */
+    height: 800px;
+    width: 1050px;
+    background-color: black;
+    align-self: center;
+    text-align: center;
+    align-items: center;
+
+   
+}
+
+.certificate-template{
+    margin-top: 20px;
+    margin-left: 25px;
+    position: relative;
+    align-self: center;
+    background-image: url('../certificate.jpg');
+    /* background-color:red; */
+    background-repeat: no-repeat;
+    height: 700px;
+    width: 1000px;
+    color:black;
+}
+
+.certificate-date{
+    position: relative;
+    align-self: center;
+    top: 160px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color:black;
+}
+
+.certificate-student-name{
+    position: relative;
+    align-self: center;
+    top: 90px;
+    font-family: 'French Script MT', 'Arial Narrow', Arial, sans-serif;
+    font-size: 2.0rem;
+    color:black;
+}
+
+.certificate-course-name{
+    position: relative;
+    align-self: center;
+    top: 130px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color:black;
 }

@@ -1,11 +1,16 @@
+* {
+    font-family: "Quicksand", sans-serif;
+}
+
 body {
-    font-family: Arial, sans-serif;
+   
     background-color: #f0f0f0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
+    font-family: "Quicksand", sans-serif;
 }
 
 .container {
@@ -21,6 +26,7 @@ body {
     text-align: center;
     color: #c8d7e1; /* Blue heading color */
     margin-bottom: 20px;
+    font-weight:bold;
 }
 
 .register-form {

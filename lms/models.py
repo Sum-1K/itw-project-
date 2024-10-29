@@ -2,7 +2,7 @@
 
 
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
@@ -49,6 +49,7 @@ class User(AbstractBaseUser, PermissionsMixin):  # Inherit from AbstractBaseUser
     is_staff = models.BooleanField(default=False)  # Required for access to the admin panel
     is_superuser = models.BooleanField(default=False)  # Required to grant all permissions
 
+    # visited_lessons = models.JSONField(default=list, blank=True)
     profile_picture = models.URLField(max_length=255, null=True, blank=True)
 
     objects = CustomUserManager()  # Use your custom user manager
@@ -99,6 +100,18 @@ class Course(models.Model):
 
     def _str_(self):
         return self.course_name
+    
+class CompletedLesson(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    lesson = models.ForeignKey('Lesson', on_delete=models.CASCADE)
+    completion_date = models.DateTimeField(auto_now_add=True)  # Optional: track completion date
+
+    class Meta:
+        unique_together = ('user', 'lesson')  # Ensures a user can only complete a lesson once
+
+    def __str__(self):
+        return f"{self.user.username} completed {self.lesson.lesson_title}"      
+
 
 class Lesson(models.Model):
     lesson_id = models.AutoField(primary_key=True) 
@@ -107,10 +120,13 @@ class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE,null=True,blank=True)
     video_url = models.URLField(max_length=255, null=True, blank=True)
     content = models.CharField(max_length=255, null=True, blank=True)
-    position = models.IntegerField(default=0)
+    position = models.IntegerField(default=0) 
+    completed_by = models.ManyToManyField(User, through=CompletedLesson, related_name='completed_lessons')
 
     def _str_(self):
         return self.lesson_title
+    
+  
 
 class Enrollment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
@@ -165,10 +181,12 @@ class QuizResponse(models.Model):
         return f'{self.student} - {self.question}'
 
 class Certificate(models.Model):
+    certificate_id=models.AutoField(primary_key=True,default=1)
     student = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE,null=True,blank=True)
     date_issued = models.DateField()
     certificate_url = models.URLField(max_length=255)
+
 
     def _str_(self):
         return f'{self.student} - {self.course}'

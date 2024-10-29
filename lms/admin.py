@@ -51,7 +51,7 @@
 # admin.site.register(Course)
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User,  Enrollment,  Course,Lesson
+from .models import User,  Enrollment,  Course,Lesson,Certificate,CompletedLesson
 
 class CustomUserAdmin(UserAdmin):
     model = User
@@ -86,3 +86,5 @@ admin.site.register(Enrollment)
 admin.site.register(Course)
 
 admin.site.register(Lesson)
+admin.site.register(Certificate)
+admin.site.register(CompletedLesson)

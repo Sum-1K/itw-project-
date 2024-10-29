@@ -126,3 +126,4 @@ AUTHENTICATION_BACKENDS = [
     'lms.backends.CustomUserBackend',  # Correct
 ]
 AUTH_USER_MODEL = 'lms.User'
+LOGOUT_REDIRECT_URL = 'home'

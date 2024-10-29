@@ -11,65 +11,16 @@ from django.core.validators import validate_email
 import re
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
-from .models import Enrollment, User,Lesson
-from .models import Course
+from .models import Enrollment, User,Lesson,Certificate
+from .models import Course,CompletedLesson
+from django.contrib.auth import logout
+
 
 
 
 def home(request):
      return render(request,'home.html')
 
-# def login_view(request):
-#     if request.method == "POST":
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-
-       
-#         user = authenticate(request, username=username, password=password)
-
-#         if user is not None:
-#             if user.is_active:
-#                 auth_login(request, user)
-#                 messages.success(request, "Login successful!")
-#                 return redirect('home')  # Adjust the 'home' URL to where you want to redirect after login
-#             else:
-#                 messages.error(request, "This account is inactive.")
-#         else:
-#             messages.error(request, "Invalid username or password.")
-
-#     return render(request, 'login.html')
-# def login_view(request):
-#     if request.method == "POST":
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-        
-#         # Authenticate the user
-#         user = authenticate(request, username=username, password=password)
-        
-#         if user is not None:
-#             # Log the user in
-#             auth_login(request, user)
-#             return redirect('home')  # Redirect to your home page or dashboard
-#         else:
-#             # Invalid login credentials
-#             messages.error(request, "Invalid username or password")
-#             return render(request, 'login.html')
-    
-#     return render(request, 'login.html')
-# def login(request):
-    # if request.method == "POST":
-    #     form = AuthenticationForm(request, data=request.POST)
-    #     if form.is_valid():
-    #         user = form.get_user()
-    #         auth_login(request, user)
-    #         return redirect('home')
-    #     else:
-    #         messages.error(request, "Invalid username or password.")
-            
-    
-    # form = AuthenticationForm()
-    # return render(request, 'login.html', {'form': form})
-    
     
 def login_view(request):
     if request.method == 'POST':
@@ -81,31 +32,7 @@ def login_view(request):
         print(password)
         
 
-                
 
-    #     if not (username and password):
-    #         print("here")
-    #         messages.error(request, 'Please fill all fields.')
-    #         return render(request, 'login.html')
-
-    #     try:
-    #         user=User.objects.all()
-       
-    #         for u in user:
-    #             if u.username==username and u.password==password:
-    #                 print("person found")
-    #                 return redirect('home')
-    #         print('invalid username or password')
-            
-
-           
- 
-
-    #     except Exception as e:
-    #         messages.error(request, f'An error occurred: {str(e)}')
-    #         print("Error:", str(e))  # Catch any unexpected errors
-
-    # return render(request, 'login.html')
     
         if not (username and password):
             messages.error(request, 'Please fill all fields.')
@@ -184,7 +111,7 @@ def register(request):
                
                 
 
-                # Create the Patient record and link it to the user
+
                 user = User.objects.create(
                       # Link to CustomUser
                     phone_number=phone_number,
@@ -194,7 +121,7 @@ def register(request):
                     first_name=first_name,
                     last_name=last_name,
                     password=make_password(password)
-                    # Assuming Patient model has this field
+  
 
                 )
                 print(user.password)
@@ -204,98 +131,62 @@ def register(request):
                 return redirect('login')  # Redirect to the home page after successful registration
 
         except Exception as e:
-            # Log the error to help with debugging
+   
             print("Error occurred during registration:", str(e))
             messages.error(request, f'Registration failed: {str(e)}')
             return render(request, 'register.html')
 
-    # Render the form initially or in case of an error
     return render(request, 'register.html')
 
         
-    #     try:
-    #         user = User(
-    #             first_name=first_name,
-    #             last_name=last_name,
-    #             username=username,
-    #             # password=password,
-    #             email=email,
-    #             phone_number=phone_number,
-    #             user_type='student'
-                 
-                
-                
-              
-    #         )
-    #         user.password = make_password(password) 
-    #         user.save()
-    #         messages.success(request, "Registration successful!")
-    #         return redirect('login')  # Redirect to the login page after successful registration
-    #     except ValidationError as e:
-    #         messages.error(request, f"Error: {str(e)}")
 
-    # return render(request, 'register.html')
-
-
-# def register(request):
-#     if request.method == "POST":
-#         form = UserRegisterForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             # username=form.cleaned_data.get('username')
-#             messages.success(request, "Registration successful!")
-#             return redirect('login')
-#     else:
-#         form = UserCreationForm()
-#     return render(request, 'register.html', {'form': form})
     
 def courses(request):
-     courses=Course.objects.all()
-
-     return render(request,'courses.html',{'courses':courses})
+    
+    all_courses = Course.objects.all()
+    
+    if request.user.is_authenticated:
+        enrolled_courses = Enrollment.objects.filter(user=request.user).values_list('course_id', flat=True)
+        available_courses = [course for course in all_courses if course.course_id not in enrolled_courses]
+    else:
+        # If user is not authenticated, show all courses
+        available_courses = all_courses
+    
+    return render(request, 'courses.html', {'courses': available_courses})
 
 @login_required
 def profile(request):
      return render(request,'profile.html')
 
-# @login_required
-# def user_profile(request):
-#     user = request.user
-#     enrollments = Enrollment.objects.filter(user=user)
-#     certificates = Certificate.objects.filter(student=user)
-#     notifications = Notification.objects.filter(user=user, is_read=False)
-
-#     # Calculate overall progress
-#     overall_progress = enrollments.aggregate(Avg('progress'))['progress__avg'] or 0
-
-#     context = {
-#         'user': user,
-#         'enrollments': enrollments,
-#         'certificates': certificates,
-#         'notifications': notifications,
-#         'overall_progress': overall_progress,
-#     }
-    
-#     return render(request, 'user_profile.html', context)
 
 def admin_view(request):
      return render(request,'admin_view.html')
 
 
-@login_required
-def course_details(request,course_id):
-    print("view called")
-     
-    course = get_object_or_404(Course, id=course_id)
-    lessons = Lesson.objects.filter(course=course).order_by('position')  # Order by position
-    initial_lesson = lessons.first()  # Default to the first lesson based on position
-    print("reached halfway")
-    return render(request, 'course_detail.html', {
+
+
+
+def course_details(request, course_id,lesson_id=None):
+    print(course_id)
+    print(lesson_id)
+    course = Course.objects.get(course_id=course_id)
+    lessons = Lesson.objects.filter(course=course).order_by('position')
+
+    if lesson_id is None and lessons.exists():
+        initial_lesson = lessons.first()
+    else:
+        initial_lesson = get_object_or_404(Lesson, lesson_id=lesson_id)
+
+    # Mark the lesson as completed when it is loaded
+    if request.user.is_authenticated:
+        CompletedLesson.objects.get_or_create(user=request.user, lesson=initial_lesson)
+    context = {
         'course': course,
         'lessons': lessons,
         'initial_lesson': initial_lesson,
-    })
-     
+    }
+    return render(request, 'course_details.html', context)
+
 def home_unregistered(request):
      return render(request,'home_unregistered.html')
 
@@ -315,7 +206,8 @@ def student_enrollments(request):
 @login_required
 def enroll_in_course(request, course_id):
     print(course_id)
-    course = get_object_or_404(Course, id=course_id)
+    
+    course = get_object_or_404(Course, course_id=course_id)
     enrollment, created = Enrollment.objects.get_or_create(user=request.user, course=course)
 
     if created:
@@ -325,27 +217,70 @@ def enroll_in_course(request, course_id):
         # User is already enrolled
         messages.info(request, "You are already enrolled in this course.")
 
-    return redirect('home')
+    return redirect('course_details', course_id=course_id)
 
-@login_required
-def visit_lesson(request, lesson_id):
-    lesson = get_object_or_404(Lesson, id=lesson_id)
-    enrollment = get_object_or_404(Enrollment, user=request.user, course=lesson.course)
 
-    # Update progress
-    total_lessons = lesson.course.lesson_set.count()
-    visited_lessons = enrollment.progress * total_lessons  # Assuming progress is a float value (0.0 to 1.0)
-    
-    # Increment visited lessons count
-    visited_lessons += 1
 
-    # Calculate new progress
-    new_progress = visited_lessons / total_lessons
-    enrollment.progress = new_progress
-    enrollment.save()
 
-    return render(request, 'lesson_detail.html', {'lesson': lesson, 'enrollment': enrollment})
 
 def my_courses(request):
+    # enrollments = Enrollment.objects.filter(user=request.user)
+    # print("i am here")
+    
+    # for x in enrollments:
+    #     print("values printing")
+    #     print(x.user.first_name)
+    # return render(request, 'my_courses.html', {'enrollments': enrollments})
     enrollments = Enrollment.objects.filter(user=request.user)
-    return render(request, 'my_courses.html', {'enrollments': enrollments})
+    progress_data = []
+   
+
+    for enrollment in enrollments:
+       
+        course = enrollment.course
+        
+        total_lessons=Lesson.objects.filter(course=course).count()
+        # total_lessons = course.lessons.count()  
+        completed_lessons = CompletedLesson.objects.filter(user=request.user, lesson__course=course).count()
+
+        
+        progress_percentage = (completed_lessons / total_lessons * 100) if total_lessons > 0 else 0
+
+        
+        progress_data.append({
+            'course': course,
+            'progress_percentage': progress_percentage,
+        })
+
+    return render(request, 'my_courses.html', {'progress_data': progress_data})
+
+
+@login_required
+def certificates(request):
+    certificate=Certificate.objects.filter(student=request.user)
+    has_certificates=certificate.exists()
+    context={
+        'certificates':certificate,
+        'has_certificates':has_certificates
+
+    }
+    return render(request,'certificates.html',context)
+
+@login_required
+def certificate_view(request, certificate_id):
+    certificate = get_object_or_404(Certificate, certificate_id=certificate_id, student=request.user)
+
+    context = {
+        'certificate': certificate  # Pass the single certificate object
+    }
+    
+    #certificate=get_object_or_404(Certificate, certificate_id=certificate_id)
+    #cert = Certificate.objects.get(certificate_id=certificate_id)
+    return render(request,'index.html',context)
+
+def logout_view(request):
+    logout(request)
+    return redirect('home') 
+
+def mark_lesson_completed(user, lesson):
+    CompletedLesson.objects.get_or_create(user=user, lesson=lesson)

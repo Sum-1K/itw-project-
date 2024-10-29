@@ -1,10 +1,132 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: white;
+/* .container {
+    display: flex;
 }
 
-/* Navbar Styling */
+.sidebar {
+    width: 25%;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    color: #333;
+}
+
+.sidebar ul li a.active, .sidebar ul li a:hover {
+    background-color: #ddd;
+}
+
+.content {
+    width: 75%;
+    padding: 20px;
+} */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Quicksand", sans-serif;
+   
+}
+
+body {
+    
+    display: flex;
+    justify-content: center;
+    margin-top:40px;
+    background-color: #f4f4f9;
+    /* background-color:red; */
+   
+    
+}
+
+.container {
+    display: flex;
+    width: 80%;
+    max-width: 1200px;
+    margin-top:500px;
+    margin: 20px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar {
+    width: 25%;
+    padding: 20px;
+    background-color: #f0f4fc;
+    border-right: 1px solid #ddd;
+}
+
+.sidebar h3 {
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.sidebar ul {
+    list-style-type: none;
+}
+
+.sidebar ul li {
+    margin-bottom: 10px;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #0073e6;
+    font-weight: bold;
+    display: block;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.sidebar ul li a:hover, .sidebar ul li a.active {
+    background-color: #d9e6fd;
+    color: #005bb5;
+}
+
+.content {
+    width: 75%;
+    padding: 20px;
+}
+
+#lesson-title {
+    font-size: 1.5em;
+    margin-bottom: 40px;
+    color: #333;
+    text-align:center;
+}
+
+#lesson-video {
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+}
+
+#lesson-description {
+    margin-top:20px;
+    font-size: 1em;
+    line-height: 35px;
+    color: #4a5b78;
+    /* background-color:red; */
+}
+.hook{
+    font-size:1.5rem;
+    padding:10px;
+    font-weight:bold;
+    text-align:center;
+    margin-bottom:40px;
+}
+
+/* for navbar */
 .nav-left{
     justify-content: space-evenly;
     /* width:800px; */
@@ -161,66 +283,4 @@ body {
 
  .nav-right li {
     margin-right: 20px;
-}
-
-/* Content Section */
-.content {
-    /* margin-top: 100px; */
-    text-align: center;
-    /* padding: 50px; */
-}
-.search-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.search-box {
-    padding: 10px;
-    font-size: 16px;
-    border: 2px solid #ccc;
-    border-radius: 5px 0 0 5px;
-    outline: none;
-    width: 200px;
-}
-.search-button {
-    padding: 10px 15px;
-    font-size: 16px;
-    border: none;
-    background-color: #333;
-    color: white;
-    border-radius: 0 5px 5px 0;
-    cursor: pointer;
-}
-.tag_name{
-    display:flex;
-    justify-content:center;
-    text-align:center;
-}
-.search-button i {
-    margin-right: 0; /* Align the icon inside the button */
-}
-
-.search-button:hover {
-    background-color: #555;
-    cursor:pointer;
-}
-
-/* Style the input box when focused */
-.search-box:focus {
-    border-color: #333;
-}
-.profile-avatar {
-    width: 40px;        /* Adjust the size as needed */
-    height: 40px;       /* Adjust the size as needed */
-    border-radius: 50%;  /* Makes it a circle */
-    background-color: #99c3f3; /* Background color for the avatar */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;        /* Icon color */
-    font-size: 20px;     /* Adjust icon size as needed */
-}
-.profile-avatar:hover{
-    background-color:#75aded;
-    cursor:pointer;
 }
