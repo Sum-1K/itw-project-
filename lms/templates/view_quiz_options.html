@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Quiz Questions</title>
+</head>
+<body>
+    <h1>Questions for Quiz: {{ quiz.quiz_title }}</h1>
+
+    <h2>Existing Questions</h2>
+    <ul>
+        {% for question in questions %}
+            <li>
+                {{ question.question_text }} ({{ question.question_type }})
+                {% if question.question_type == "Multiple Choice" %}
+                    <a href="{% url 'add_quiz_options' question.question_id %}">Add Options</a>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>No questions added yet.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'add_quiz_questions' quiz.quiz_id %}">Add More Questions</a>
+</body>
+</html>

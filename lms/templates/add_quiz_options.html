@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Options for Quiz: {{ quiz.quiz_title }}</title>
+</head>
+<body>
+    <h1>Add Options for Quiz: {{ quiz.quiz_title }}</h1>
+
+    <!-- Option Form -->
+    <form method="POST">
+        {% csrf_token %}
+
+        <label for="option_text">Option Text:</label>
+        <input type="text" name="option_text" id="option_text" required>
+
+        <label for="is_correct">Is Correct:</label>
+        <input type="checkbox" name="is_correct" id="is_correct">
+
+        <button type="submit">Add Option</button>
+    </form>
+
+    <!-- Display Existing Options -->
+    <h2>Existing Options</h2>
+    <ul>
+        {% for option in options %}
+            <li>{{ option.option_text }} (Correct: {{ option.is_correct }})</li>
+        {% empty %}
+            <li>No options added yet.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'some_view_to_go_back' %}">Back to Quiz</a> <!-- Adjust the URL as needed -->
+</body>
+</html>

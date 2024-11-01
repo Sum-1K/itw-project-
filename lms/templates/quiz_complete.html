@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h2>Quiz Completed</h2>
+<p>Your score: {{ total_score }} out of {{ max_score }}</p>
+
+<h3>Your Responses:</h3>
+<ul>
+    {% for response in responses %}
+        <li>
+            <strong>Question:</strong> {{ response.question.question_text }}<br>
+            <strong>Your Answer:</strong> {{ response.selected_option.option_text }}<br>
+            <strong>Correct:</strong> {{ response.selected_option.is_correct }}
+        </li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'home' %}" class="btn btn-primary">Go to Home</a>
+
+</body>
+</html>
+

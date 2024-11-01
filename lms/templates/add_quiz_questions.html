@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Questions for Quiz</title>
+</head>
+<body>
+    <h1>Add Questions for Quiz: {{ quiz.quiz_title }}</h1>
+
+    <!-- Question Form -->
+    <form method="POST">
+        {% csrf_token %}
+        
+        <label for="question_text">Question Text:</label>
+        <textarea name="question_text" id="question_text" rows="4" required></textarea>
+
+        <label for="question_type">Question Type:</label>
+        <select name="question_type" id="question_type" required>
+            <option value="Multiple Choice">Multiple Choice</option>
+            <option value="T/F">True/False</option>
+        </select>
+
+        <label for="max_marks">Maximum Marks:</label>
+        <input type="number" name="max_marks" id="max_marks" min="0" required>
+
+        <button type="submit" name="action" value="add_question">Add Question</button>
+        <button type="submit" name="action" value="finish">Finish and Save</button>
+    </form>
+
+    <!-- Display Validation Errors -->
+    {% if question_form.errors %}
+        <div class="error">
+            <ul>
+                {% for field in question_form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- Display Existing Questions -->
+    <h2>Existing Questions</h2>
+    <ul>
+        {% for question in questions %}
+            <li>{{ question.question_text }} ({{ question.question_type }})</li>
+        {% empty %}
+            <li>No questions added yet.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

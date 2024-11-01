@@ -140,7 +140,7 @@ class Enrollment(models.Model):
         return f'{self.user} - {self.course}'
 
 class Quiz(models.Model):
-    quiz_id=models.AutoField(primary_key=True,default=1)
+    quiz_id=models.AutoField(primary_key=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE,null=True,blank=True)
     quiz_title = models.CharField(max_length=100)
     max_marks = models.IntegerField(default=0)
@@ -151,7 +151,7 @@ class Quiz(models.Model):
     def _str_(self):
         return self.quiz_title
 class QuizQuestion(models.Model):
-    question_id=models.AutoField(primary_key=True,default=1)
+    question_id=models.AutoField(primary_key=True)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE,null=True,blank=True)
     question_text = models.TextField()
     QUESTION_TYPE = [('Multiple Choice', 'Multiple Choice'), ('T/F', 'True/False')]
@@ -162,7 +162,7 @@ class QuizQuestion(models.Model):
         return self.question_text
 
 class QuizOption(models.Model):
-    option_id=models.AutoField(primary_key=True,default=1)
+    option_id=models.AutoField(primary_key=True)
     question = models.ForeignKey(QuizQuestion, on_delete=models.CASCADE,null=True,blank=True)
     option_no = models.IntegerField(default=0)
     option_text = models.TextField(default=0)
@@ -181,7 +181,7 @@ class QuizResponse(models.Model):
         return f'{self.student} - {self.question}'
 
 class Certificate(models.Model):
-    certificate_id=models.AutoField(primary_key=True,default=1)
+    certificate_id=models.AutoField(primary_key=True)
     student = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE,null=True,blank=True)
     date_issued = models.DateField()

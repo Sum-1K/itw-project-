@@ -14,6 +14,11 @@ from django.db.models import Avg
 from .models import Enrollment, User,Lesson,Certificate
 from .models import Course,CompletedLesson
 from django.contrib.auth import logout
+from django.forms import modelformset_factory
+from django.utils import timezone
+from .models import Quiz, QuizQuestion, QuizOption, QuizResponse
+from .forms import QuizResponseForm ,QuizQuestionForm,QuizForm,QuizOptionForm
+from datetime import timedelta
 
 
 
@@ -284,3 +289,155 @@ def logout_view(request):
 
 def mark_lesson_completed(user, lesson):
     CompletedLesson.objects.get_or_create(user=user, lesson=lesson)
+
+def create_quiz(request):
+    if request.method == 'POST':
+        quiz_form = QuizForm(request.POST)
+        if quiz_form.is_valid():
+            quiz = quiz_form.save(commit=False)
+            quiz.start_time=timezone.now()
+            quiz.end_time=quiz.start_time+timedelta(minutes=quiz_form.cleaned_data['duration'])
+            quiz.save()
+            return redirect('add_quiz_questions', quiz_id=quiz.quiz_id)
+    else:
+        quiz_form = QuizForm()
+
+    context = {'quiz_form': quiz_form}
+    return render(request, 'create_quiz.html', context)
+
+
+def add_quiz_questions(request, quiz_id):
+    quiz = get_object_or_404(Quiz, quiz_id=quiz_id)
+    
+    if request.method == 'POST':
+        question_text = request.POST.get('question_text')
+        question_type = request.POST.get('question_type')
+        max_marks = request.POST.get('max_marks')
+
+#         # Create and save the new question
+        question = QuizQuestion(
+            quiz=quiz,
+            question_text=question_text,
+            question_type=question_type,
+            max_marks=max_marks
+        )
+        question.save()  # Save the question
+        question_form = QuizQuestionForm(request.POST)
+        if question_form.is_valid():
+
+
+            if request.POST.get('action') == 'finish':
+                # Redirect to a new page to view all questions for the course
+                return redirect('view_quiz_questions', quiz_id=quiz_id)
+            else:
+                # Clear the form for adding another question
+                question_form = QuizQuestionForm()  # Reset the form
+
+    else:
+        question_form = QuizQuestionForm()
+
+    questions = QuizQuestion.objects.filter(quiz=quiz)  # Retrieve existing questions
+    context = {
+        'quiz': quiz,
+        'question_form': question_form,
+        'questions': questions
+    }
+    return render(request, 'add_quiz_questions.html', context)
+
+def view_quiz_questions(request, quiz_id):
+    quiz = get_object_or_404(Quiz, quiz_id=quiz_id)
+    questions = QuizQuestion.objects.filter(quiz=quiz)
+
+    context = {
+        'quiz': quiz,
+        'questions': questions,
+    }
+    return render(request, 'view_quiz_questions.html', context)
+# def add_quiz_questions(request, quiz_id):
+#     quiz = Quiz.objects.get(quiz_id=quiz_id)
+#     if request.method == 'POST':
+#         question_text = request.POST.get('question_text')
+#         question_type = request.POST.get('question_type')
+#         max_marks = request.POST.get('max_marks')
+
+#         # Create and save the new question
+#         question = QuizQuestion(
+#             quiz=quiz,
+#             question_text=question_text,
+#             question_type=question_type,
+#             max_marks=max_marks
+#         )
+#         question.save()  # Save the question
+
+#         return redirect('add_quiz_questions', quiz_id=quiz_id)  # Redirect to refresh page
+#     else:
+#         questions = QuizQuestion.objects.filter(quiz=quiz)  # Retrieve existing questions
+
+#     context = {
+#         'quiz': quiz,
+#         'questions': questions
+#     }
+#     return render(request, 'add_quiz_questions.html', context)
+
+
+
+
+def take_quiz(request, quiz_id):
+    quiz = get_object_or_404(Quiz, quiz_id=quiz_id)
+    questions = QuizQuestion.objects.filter(quiz=quiz)
+
+    if request.method == 'POST':
+        # Clear any existing responses for this quiz by the current user
+        QuizResponse.objects.filter(quiz=quiz, student=request.user).delete()
+
+        for question in questions:
+            selected_option_id = request.POST.get(f'question_{question.question_id}')
+            if selected_option_id:
+                selected_option = get_object_or_404(QuizOption, option_id=selected_option_id)
+                # Create a new QuizResponse for the current question
+                QuizResponse.objects.create(
+                    student=request.user,
+                    question=question,
+                    selected_option=selected_option,
+                    marks_obtained=selected_option.is_correct * question.max_marks
+                )
+
+        return redirect('quiz_result', quiz_id=quiz.quiz_id)  # Redirect to results page
+
+    context = {
+        'quiz': quiz,
+        'questions': questions,
+    }
+    return render(request, 'take_quiz.html', context)
+
+def quiz_result(request, quiz_id):
+    quiz = Quiz.objects.get(quiz_id=quiz_id)
+    responses = QuizResponse.objects.filter(quiz_id=quiz.quiz_id, student=request.user)
+    total_marks = sum(response.marks_obtained for response in responses)
+
+    context = {
+        'quiz': quiz,
+        'responses': responses,
+        'total_marks': total_marks,
+    }
+    return render(request, 'quiz_result.html', context)
+
+def add_quiz_options(request, question_id):
+    print("question id passed is: ",question_id)
+    question = get_object_or_404(QuizQuestion, question_id=question_id)
+
+    if request.method == 'POST':
+        option_form = QuizOptionForm(request.POST)
+        if option_form.is_valid():
+            option = option_form.save(commit=False)
+            option.question = question
+            option.save()
+            return redirect('view_quiz_questions', quiz_id=question.quiz.quiz_id)  # Redirect to questions view
+    else:
+        option_form = QuizOptionForm()
+
+    context = {
+        'question': question,
+        'option_form': option_form,
+    }
+    return render(request, 'add_quiz_options.html', context)

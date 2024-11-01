@@ -37,6 +37,11 @@ urlpatterns = [
     path('certificates/',views.certificates,name='certificates'),
     path('certificates/certificate_view/<int:certificate_id>',views.certificate_view,name='certificate_view'),
     path('logout/', views.logout_view, name='logout'),
-    
+    path('create_quiz/', views.create_quiz, name='create_quiz'),
+    path('add_quiz_questions/<int:quiz_id>/', views.add_quiz_questions, name='add_quiz_questions'),
+    path('take_quiz/<int:quiz_id>/', views.take_quiz, name='take_quiz'),
+    path('quiz_result/<int:quiz_id>/', views.quiz_result, name='quiz_result'),
+    path('view_quiz_questions/<int:quiz_id>/',views.view_quiz_questions,name='view_quiz_questions'),
+    path('add_quiz_options/<int:quiz_id>/', views.add_quiz_options, name='add_quiz_options'),
 
 ]

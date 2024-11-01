@@ -1,0 +1,33 @@
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ quiz.quiz_title }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2>{{ quiz.quiz_title }}</h2>
+        <form method="POST" novalidate>
+            {% csrf_token %}
+            {% for question in questions %}
+                <div class="form-group">
+                    <label>{{ question.question_text }}</label>
+                    <div>
+                        {% for option in question.quizoption_set.all %}
+                            <div class="form-check">
+                                {{ form.selected_option|crispy }}
+                                <input type="radio" class="form-check-input" name="question_{{ question.question_id }}" value="{{ option.option_id }}" id="option_{{ option.option_id }}">
+                                <label class="form-check-label" for="option_{{ option.option_id }}">{{ option.option_text }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Submit Quiz</button>
+        </form>
+    </div>
+</body>
+</html>
