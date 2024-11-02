@@ -28,7 +28,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'lms.apps.LmsConfig',
     'crispy_forms',
-    'crispy_bootstrap4'
+    'crispy_bootstrap4',
+    'django_celery_beat',
+    'django_celery_results',
 ]
 
 
@@ -130,3 +132,4 @@ AUTHENTICATION_BACKENDS = [
 AUTH_USER_MODEL = 'lms.User'
 LOGOUT_REDIRECT_URL = 'home'
 CRISPY_TEMPLATE_PACK='bootstrap4'
+CELERY_RESULT_BACKEND = 'django-db'

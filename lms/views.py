@@ -250,11 +250,20 @@ def my_courses(request):
         course = enrollment.course
         
         total_lessons=Lesson.objects.filter(course=course).count()
+        total_quiz=Quiz.objects.filter(course=course).count()
         # total_lessons = course.lessons.count()  
         completed_lessons = CompletedLesson.objects.filter(user=request.user, lesson__course=course).count()
+       
+        completed_quizzes = (
+        QuizResponse.objects
+        .filter(student=request.user, question__quiz__course=course)
+        .values('question__quiz')  # Get only the quiz for grouping
+        .distinct()  # Ensure each quiz is counted only once
+        .count()
+)
 
         
-        progress_percentage = (completed_lessons / total_lessons * 100) if total_lessons > 0 else 0
+        progress_percentage = ((completed_lessons+completed_quizzes) / (total_lessons+total_quiz) * 100) if total_lessons > 0 else 0 if total_quiz > 0 else 0
 
         
         progress_data.append({
@@ -393,7 +402,7 @@ def take_quiz(request, quiz_id):
 
     if request.method == 'POST':
         # Clear any existing responses for this quiz by the current user
-        # QuizResponse.objects.filter(quiz=quiz, student=request.user).delete()
+        QuizResponse.objects.filter(question__quiz=quiz, student=request.user).delete()
 
         for question in questions:
             selected_option_id = request.POST.get(f'question_{question.question_id}')
@@ -417,7 +426,7 @@ def take_quiz(request, quiz_id):
 
 def quiz_result(request, quiz_id):
     quiz = Quiz.objects.get(quiz_id=quiz_id)
-    responses = QuizResponse.objects.filter(question.quiz.quiz_id==quiz.quiz_id, student=request.user)
+    responses = QuizResponse.objects.filter(question__quiz=quiz, student=request.user)
     total_marks = sum(response.marks_obtained for response in responses)
 
     context = {
@@ -427,25 +436,7 @@ def quiz_result(request, quiz_id):
     }
     return render(request, 'quiz_result.html', context)
 
-# def add_quiz_options(request, question_id):
-#     print("question id passed is: ",question_id)
-#     question = get_object_or_404(QuizQuestion, question_id=question_id)
 
-#     if request.method == 'POST':
-#         option_form = QuizOptionForm(request.POST)
-#         if option_form.is_valid():
-#             option = option_form.save(commit=False)
-#             option.question = question
-#             option.save()
-#             return redirect('view_quiz_questions', quiz_id=question.quiz.quiz_id)  # Redirect to questions view
-#     else:
-#         option_form = QuizOptionForm()
-
-#     context = {
-#         'question': question,
-#         'option_form': option_form,
-#     }
-#     return render(request, 'add_quiz_options.html', context)
 def add_quiz_options(request, question_id):
     # Get the question for which we're adding options
     question = get_object_or_404(QuizQuestion, question_id=question_id)
