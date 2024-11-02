@@ -91,12 +91,28 @@
                             class="lesson-link {% if lesson == initial_lesson %}active{% endif %}">
                              {{ lesson.position }}. {{ lesson.lesson_title }}
                          </a>
+
                         </li>
                     {% endfor %}
+
                 </ul>
             {% else %}
                 <p>No lessons available</p>
             {% endif %}
+            {% if quiz %}
+            <ul>
+                <h2>Quizzes</h2>
+                {% for q in quiz %}
+                <li> <a href="{% url 'take_quiz' q.quiz_id %}"> {{q.quiz_title}}</a>
+                
+                </li>
+               {% endfor %}
+               
+            </ul>
+            {% else %}
+            <p>No lessons available</p>
+        {% endif %}
+
             </ul>
         </div>
 

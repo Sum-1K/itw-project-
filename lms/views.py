@@ -171,11 +171,15 @@ def admin_view(request):
 
 
 
-def course_details(request, course_id,lesson_id=None):
+def course_details(request, course_id,lesson_id=None,quiz_id=None):
     print(course_id)
     print(lesson_id)
     course = Course.objects.get(course_id=course_id)
     lessons = Lesson.objects.filter(course=course).order_by('position')
+    quiz=Quiz.objects.filter(course=course)
+    
+    for x in quiz:
+        print(x.quiz_title)
 
     if lesson_id is None and lessons.exists():
         initial_lesson = lessons.first()
@@ -189,6 +193,7 @@ def course_details(request, course_id,lesson_id=None):
         'course': course,
         'lessons': lessons,
         'initial_lesson': initial_lesson,
+        'quiz':quiz
     }
     return render(request, 'course_details.html', context)
 
@@ -388,7 +393,7 @@ def take_quiz(request, quiz_id):
 
     if request.method == 'POST':
         # Clear any existing responses for this quiz by the current user
-        QuizResponse.objects.filter(quiz=quiz, student=request.user).delete()
+        # QuizResponse.objects.filter(quiz=quiz, student=request.user).delete()
 
         for question in questions:
             selected_option_id = request.POST.get(f'question_{question.question_id}')
@@ -412,7 +417,7 @@ def take_quiz(request, quiz_id):
 
 def quiz_result(request, quiz_id):
     quiz = Quiz.objects.get(quiz_id=quiz_id)
-    responses = QuizResponse.objects.filter(quiz_id=quiz.quiz_id, student=request.user)
+    responses = QuizResponse.objects.filter(question.quiz.quiz_id==quiz.quiz_id, student=request.user)
     total_marks = sum(response.marks_obtained for response in responses)
 
     context = {
@@ -422,22 +427,59 @@ def quiz_result(request, quiz_id):
     }
     return render(request, 'quiz_result.html', context)
 
+# def add_quiz_options(request, question_id):
+#     print("question id passed is: ",question_id)
+#     question = get_object_or_404(QuizQuestion, question_id=question_id)
+
+#     if request.method == 'POST':
+#         option_form = QuizOptionForm(request.POST)
+#         if option_form.is_valid():
+#             option = option_form.save(commit=False)
+#             option.question = question
+#             option.save()
+#             return redirect('view_quiz_questions', quiz_id=question.quiz.quiz_id)  # Redirect to questions view
+#     else:
+#         option_form = QuizOptionForm()
+
+#     context = {
+#         'question': question,
+#         'option_form': option_form,
+#     }
+#     return render(request, 'add_quiz_options.html', context)
 def add_quiz_options(request, question_id):
-    print("question id passed is: ",question_id)
+    # Get the question for which we're adding options
     question = get_object_or_404(QuizQuestion, question_id=question_id)
 
     if request.method == 'POST':
-        option_form = QuizOptionForm(request.POST)
-        if option_form.is_valid():
-            option = option_form.save(commit=False)
-            option.question = question
-            option.save()
-            return redirect('view_quiz_questions', quiz_id=question.quiz.quiz_id)  # Redirect to questions view
+        # Retrieve option text and is_correct values from the form
+        option_text = request.POST.get('option_text')
+        is_correct = request.POST.get('is_correct') == 'on'  # Checkbox for correct answer
+
+        # Create and save the new option
+        option = QuizOption(
+            question=question,
+            option_text=option_text,
+            is_correct=is_correct
+        )
+        option.save()
+
+        # Check if "Finish" button was clicked
+        if request.POST.get('action') == 'finish':
+            # Redirect to the page showing all questions for the quiz
+            return redirect('view_quiz_questions', quiz_id=question.quiz.quiz_id)
+        else:
+            # Clear the form for adding another option
+            option_form = QuizOptionForm()  # Reset the form
+
     else:
         option_form = QuizOptionForm()
 
+    # Retrieve existing options for this question
+    options = QuizOption.objects.filter(question=question)
     context = {
         'question': question,
         'option_form': option_form,
+        'options': options
     }
     return render(request, 'add_quiz_options.html', context)
+
