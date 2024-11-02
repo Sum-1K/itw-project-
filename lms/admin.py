@@ -52,6 +52,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import User,  Enrollment,  Course,Lesson,Certificate,CompletedLesson,Quiz,QuizQuestion,QuizOption,QuizResponse
+# from django.contrib.auth.models import  Group
 
 class CustomUserAdmin(UserAdmin):
     model = User
@@ -64,7 +65,7 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'email', 'password')}),
         ('Personal Info', {'fields': ('first_name', 'last_name', 'phone_number', 'profile_picture', 'user_type')}),
-        ('Permissions', {'fields': ('is_staff', 'is_active', 'is_superuser')}),
+        ('Permissions', {'fields': ('is_staff', 'is_active', 'is_superuser', 'groups','user_permissions')}),
         ('Important dates', {'fields': ('last_login',)}),
     )
     
@@ -74,7 +75,7 @@ class CustomUserAdmin(UserAdmin):
             'classes': ('wide',),
             'fields': (
                 'username', 'email', 'phone_number', 'first_name', 'last_name', 'profile_picture',
-                'user_type', 'password1', 'password2', 'is_staff', 'is_active', 'is_superuser'
+                'user_type', 'password1', 'password2', 'is_staff', 'is_active', 'is_superuser','groups','user_permissions'
             ),
         }),
     )
@@ -92,4 +93,5 @@ admin.site.register(Quiz)
 admin.site.register(QuizResponse)
 admin.site.register(QuizQuestion)
 admin.site.register(QuizOption)
+# admin.site.register(Group)
 

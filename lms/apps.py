@@ -8,7 +8,7 @@
 #         from .tasks import generate_certificates
 #         generate_certificates()  # Schedule the task
 from django.apps import AppConfig
-from django.db.models.signals import post_migrate
+
 from django.db.utils import OperationalError, ProgrammingError
 
 class LmsConfig(AppConfig):

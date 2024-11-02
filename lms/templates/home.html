@@ -43,6 +43,13 @@
             <!-- Show based on user authentication status -->
             {% if user.is_authenticated %}
                 <!-- Profile Dropdown for Logged-in User -->
+                {% if is_teacher %}
+                <li>
+                   <div class="tag_name">
+                       <a href="{% url 'create_quiz' %}">Create Quiz</a>
+                   </div>
+                </li>
+                {% endif %}
                 <li class="profile-dropdown">
                     <div class="profile-photo-mini">
                         <img src="{{ user.profile_picture.url }}" alt="Profile Picture">

@@ -1,32 +1,42 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from django.contrib.auth.forms import UserCreationForm
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login 
-from django.contrib.auth import get_user_model
+
 from django.db import transaction
-# from django.contrib.auth.forms import AuthenticationForm
+
 from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import make_password
 from django.core.validators import validate_email
 import re
 from django.contrib.auth.decorators import login_required
-from django.db.models import Avg
+
 from .models import Enrollment, User,Lesson,Certificate
 from .models import Course,CompletedLesson
 from django.contrib.auth import logout
-from django.forms import modelformset_factory
+
 from django.utils import timezone
 from .models import Quiz, QuizQuestion, QuizOption, QuizResponse,DiscussionForum
-from .forms import QuizResponseForm ,QuizQuestionForm,QuizForm,QuizOptionForm
+from .forms import QuizQuestionForm,QuizForm,QuizOptionForm
 from datetime import timedelta
 
-from .forms import UserProfilePicForm,MessageForm
+from .forms import UserProfilePicForm,MessageForm,FeedbackForm
+from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.models import Group
 
 
-
+def is_teacher(user):
+    return user.groups.filter(name='teacher').exists()
 
 def home(request):
-     return render(request,'home.html')
+    is_teacher = request.user.groups.filter(name='Teacher').exists() if request.user.is_authenticated else False
+    print("teacher con is: ",is_teacher)
+    context = {
+        'is_teacher': is_teacher,
+        # ... other context variables
+    }
+    return render(request,'home.html',context)
 
     
 def login_view(request):
@@ -50,7 +60,7 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return redirect('home')  # Redirect to home page
+            return redirect(request.GET.get('next', 'home'))  # Redirect to home page
         else:
             messages.error(request, 'Invalid username or password.')
 
@@ -311,6 +321,12 @@ def my_courses(request):
 )
 
         
+        print("values are: ")
+        print(completed_lessons)
+        print(completed_quizzes)
+        print(total_lessons)
+        print(total_quiz)
+
         progress_percentage = ((completed_lessons+completed_quizzes) / (total_lessons+total_quiz) * 100) if total_lessons > 0 else 0 if total_quiz > 0 else 0
         enrollment.progress = progress_percentage
         enrollment.save()
@@ -359,7 +375,15 @@ def logout_view(request):
 def mark_lesson_completed(user, lesson):
     CompletedLesson.objects.get_or_create(user=user, lesson=lesson)
 
+
+@login_required
+
 def create_quiz(request):
+    print(request.user.username)
+    if not request.user.groups.filter(name='Teacher').exists():
+        messages.error(request, "You do not have permission to access this page.")
+        print("not a teacher")
+        return redirect('home')  # Redirect to home or any other appropriate page
     if request.method == 'POST':
         quiz_form = QuizForm(request.POST)
         if quiz_form.is_valid():
@@ -374,24 +398,28 @@ def create_quiz(request):
     context = {'quiz_form': quiz_form}
     return render(request, 'create_quiz.html', context)
 
-
+# @user_passes_test(is_teacher)
 def add_quiz_questions(request, quiz_id):
-    quiz = get_object_or_404(Quiz, quiz_id=quiz_id)
+        if not request.user.groups.filter(name='Teacher').exists():
+            messages.error(request, "You do not have permission to access this page.")
+            print("not a teacher")
+            return redirect('home')
+        quiz = get_object_or_404(Quiz, quiz_id=quiz_id)
     
-    if request.method == 'POST':
-        question_text = request.POST.get('question_text')
-        question_type = request.POST.get('question_type')
-        max_marks = request.POST.get('max_marks')
+        if request.method == 'POST':
+            question_text = request.POST.get('question_text')
+            question_type = request.POST.get('question_type')
+            max_marks = request.POST.get('max_marks')
 
-#         # Create and save the new question
-        question = QuizQuestion(
-            quiz=quiz,
-            question_text=question_text,
-            question_type=question_type,
-            max_marks=max_marks
-        )
-        question.save()  # Save the question
-        question_form = QuizQuestionForm(request.POST)
+    #         # Create and save the new question
+            question = QuizQuestion(
+                quiz=quiz,
+                question_text=question_text,
+                question_type=question_type,
+                max_marks=max_marks
+            )
+            question.save()  # Save the question
+            question_form = QuizQuestionForm(request.POST)
         if question_form.is_valid():
 
 
@@ -402,17 +430,18 @@ def add_quiz_questions(request, quiz_id):
                 # Clear the form for adding another question
                 question_form = QuizQuestionForm()  # Reset the form
 
-    else:
-        question_form = QuizQuestionForm()
+        else:
+          question_form = QuizQuestionForm()
 
-    questions = QuizQuestion.objects.filter(quiz=quiz)  # Retrieve existing questions
-    context = {
+          questions = QuizQuestion.objects.filter(quiz=quiz)  # Retrieve existing questions
+          context = {
         'quiz': quiz,
         'question_form': question_form,
         'questions': questions
     }
-    return render(request, 'add_quiz_questions.html', context)
+        return render(request, 'add_quiz_questions.html', context)
 
+# @user_passes_test(is_teacher)
 def view_quiz_questions(request, quiz_id):
     quiz = get_object_or_404(Quiz, quiz_id=quiz_id)
     questions = QuizQuestion.objects.filter(quiz=quiz)
@@ -423,6 +452,21 @@ def view_quiz_questions(request, quiz_id):
     }
     return render(request, 'view_quiz_questions.html', context)
 
+def feedback(request):
+    if request.method=='POST':
+        form=FeedbackForm(request.POST)
+        if form.is_valid():
+            feedback=form.save(commit=False)
+            feedback.user=request.user
+            feedback.save()
+            messages.success(request, "Thank you for your valuable feedback!")
+            return redirect('profile')
+        else:
+            form=FeedbackForm()
+    context={
+        'form': FeedbackForm()
+    }
+    return render(request, 'feedback.html', context)
 
 
 
@@ -466,7 +510,7 @@ def quiz_result(request, quiz_id):
     }
     return render(request, 'quiz_result.html', context)
 
-
+# @user_passes_test(is_teacher)
 def add_quiz_options(request, question_id):
     # Get the question for which we're adding options
     question = get_object_or_404(QuizQuestion, question_id=question_id)

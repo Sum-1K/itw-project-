@@ -1,8 +1,14 @@
+*{
+    font-family: "Quicksand", sans-serif;
+}
+
+
+
 body {
     background: #fafafa;
     color: #333333;
     margin-top: 5rem;
-    font-family: Arial, sans-serif;
+    font-family: "Quicksand", sans-serif;
   }
 
 

@@ -1,6 +1,6 @@
 from django import forms
 from .models import Quiz, QuizQuestion, QuizOption,User,DiscussionForum
-from .models import QuizResponse
+from .models import QuizResponse,Feedback
 
 class QuizForm(forms.ModelForm):
     class Meta:
@@ -51,3 +51,11 @@ class MessageForm(forms.ModelForm):
     class Meta:
         model = DiscussionForum
         fields = ['content','course']        
+
+
+
+class FeedbackForm(forms.ModelForm):
+    content = forms.CharField(label='Your Feedback',widget=forms.Textarea(attrs={'rows': 6, 'cols': 42}))
+    class Meta:
+        model=Feedback
+        fields=['content']

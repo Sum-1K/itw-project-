@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
     'background_task',
-
+    'guardian'
 ]
 
 
@@ -130,7 +130,11 @@ MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 
 
 AUTHENTICATION_BACKENDS = [
-    'lms.backends.CustomUserBackend',  # Correct
+    'lms.backends.CustomUserBackend', 
+      # Correct
+      'django.contrib.auth.backends.ModelBackend',
+    'guardian.backends.ObjectPermissionBackend'
+
 ]
 AUTH_USER_MODEL = 'lms.User'
 LOGOUT_REDIRECT_URL = 'home'
@@ -142,5 +146,6 @@ EMAIL_PORT=587
 EMAIL_USE_TLS=True
 EMAIL_HOST_USER=os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_PASSWD')
+
 
 
