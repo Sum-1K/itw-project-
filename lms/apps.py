@@ -1,25 +1,28 @@
-from django.apps import AppConfig
-from django_celery_beat.models import IntervalSchedule, PeriodicTask
+# from django.apps import AppConfig
 
+# class LmsConfig(AppConfig):
+#     name = 'lms'
+
+#     def ready(self):
+#         # Import the task function here to prevent circular import issues
+#         from .tasks import generate_certificates
+#         generate_certificates()  # Schedule the task
+from django.apps import AppConfig
+from django.db.models.signals import post_migrate
+from django.db.utils import OperationalError, ProgrammingError
 
 class LmsConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
     name = 'lms'
-    def ready(self):
-        from django.db.utils import OperationalError, ProgrammingError
-        
-        try:
-            # Ensure task creation only after migrations are complete
-            schedule, created = IntervalSchedule.objects.get_or_create(
-                every=1,
-                period=IntervalSchedule.DAYS,
-            )
 
-            PeriodicTask.objects.get_or_create(
-                interval=schedule,
-                name='Daily certificate issuance task',
-                task='lms.tasks.issue_certificates',
-            )
+    def ready(self):
+        try:
+            # Schedule the task if it hasn't been scheduled already
+            self.schedule_generate_certificates()
         except (OperationalError, ProgrammingError):
-            # These errors may occur if the database is not initialized yet
+            # Handle the case where database tables aren't ready (like during migration setup)
             pass
+
+    def schedule_generate_certificates(self):
+    # This function will be called after migrations are done
+        from .tasks import generate_certificates
+        generate_certificates(repeat=10)  # Schedule the task here

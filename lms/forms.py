@@ -1,5 +1,5 @@
 from django import forms
-from .models import Quiz, QuizQuestion, QuizOption
+from .models import Quiz, QuizQuestion, QuizOption,User,DiscussionForum
 from .models import QuizResponse
 
 class QuizForm(forms.ModelForm):
@@ -40,3 +40,14 @@ class QuizQuestionForm(forms.ModelForm):
         model = QuizResponse
         fields = ['selected_option']  # Only include the selected option for the quiz response
      
+
+class UserProfilePicForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['profile_picture']     
+class MessageForm(forms.ModelForm):
+    content = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Type your message...', 'class': 'form-control'}))
+    
+    class Meta:
+        model = DiscussionForum
+        fields = ['content','course']        

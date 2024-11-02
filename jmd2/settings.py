@@ -29,8 +29,8 @@ INSTALLED_APPS = [
     'lms.apps.LmsConfig',
     'crispy_forms',
     'crispy_bootstrap4',
-    'django_celery_beat',
-    'django_celery_results',
+    'background_task',
+
 ]
 
 
@@ -124,6 +124,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 LOGIN_REDIRECT_URL = 'home'
+MEDIA_URL='/media/'
+MEDIA_ROOT=os.path.join(BASE_DIR,'media')
+
 
 
 AUTHENTICATION_BACKENDS = [
@@ -132,4 +135,12 @@ AUTHENTICATION_BACKENDS = [
 AUTH_USER_MODEL = 'lms.User'
 LOGOUT_REDIRECT_URL = 'home'
 CRISPY_TEMPLATE_PACK='bootstrap4'
-CELERY_RESULT_BACKEND = 'django-db'
+
+EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST="smtp.gmail.com"
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER=os.environ.get('EMAIL_USER')
+EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_PASSWD')
+
+

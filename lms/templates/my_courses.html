@@ -41,9 +41,11 @@
             {% if user.is_authenticated %}
                 <!-- Profile Dropdown for Logged-in User -->
                 <li class="profile-dropdown">
-                    <div class="profile-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
+                    <div class="profile-photo-mini">
+                        <img src="{{ user.profile_picture.url }}" alt="Profile Picture">
+                        <i class="fas fa-user"></i> <!-- Font Awesome user icon -->
+                       
+          </div>
                     <div class="dropdown-content-profile">
                         <div class="tag_name">
                             <a href="/profile">My Profile</a>

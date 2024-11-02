@@ -12,7 +12,6 @@
 <body>
 
     <div class="container">
-        <!-- Sidebar with Lessons -->
         <div class="sidebar">
             <h3>Courses</h3>
             <ul>
@@ -34,57 +33,10 @@
                 </div>
             
             
-                <div id="chat-container">
-                    <div class="chat-header" >
-                        <h3>{{ course.course_name }}</h3> 
-                    </div>
-                    {% for post in chat %}
-                    {% if post.user == request.user %}
-                    <article class="content-section-user">
-                    {% else %}
-                    <article class="content-section">
-                    {% endif %}
-                        <div class="media-body">
-                            <div class="article-metadata">
-                                <a class="mr-2" href="#">{{ post.user.username }}</a>
-                                <small class="text-muted">{{ post.date_posted }}</small>
-                                <small class="text-muted">
-                                    {% if post.parent_post %}
-                                    <p>replied to {{ post.parent_post.user.username }}</p>
-                                    {% else %}
-                                    <br>
-                                    {% endif %}
-                                </small>
-                            </div>
-                            <p class="article-content">{{ post.content }}</p>
-                        </div>
-                    </article>
-                {% endfor %}
-                
-            
-                 <!-- <form class="typing-box">
-                    {% csrf_token %}
-                    {{ form.content }}
-                    <input type="text" placeholder="Type your message..." class="form-control">
-                    <button type="submit" class="btn btn-primary">Send</button>
-                </form>  -->
-            
-                <form method="post" action="{% url 'discussion' course_id=course.course_id %}" class="typing-box"> 
-                    <!-- so i had to write course.course_id instead of course_id!! -->
-                    {% csrf_token %}
-                    {{ form.content }}
-                    <input type="text" name="content" placeholder="Type your message...">
-                    <button type="submit" class="btn btn-primary">Send</button>
-                </form> 
-            </div>
-                
-                    
-            
-            
             </div>
         </div>
     </div>
-    <!-- Navbar -->
+    
     <nav class="navbar">
         <ul class="nav-left">
            
@@ -144,7 +96,6 @@
                   
         </ul>
     </nav>
-  
     
 
 </body>

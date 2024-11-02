@@ -50,7 +50,7 @@ class User(AbstractBaseUser, PermissionsMixin):  # Inherit from AbstractBaseUser
     is_superuser = models.BooleanField(default=False)  # Required to grant all permissions
 
     # visited_lessons = models.JSONField(default=list, blank=True)
-    profile_picture = models.URLField(max_length=255, null=True, blank=True)
+    profile_picture = models.ImageField(default='default.jpg',upload_to='profile_pics')
 
     objects = CustomUserManager()  # Use your custom user manager
 
@@ -98,7 +98,7 @@ class Course(models.Model):
     end_date = models.DateField(null=True, blank=True)
     category = models.CharField(max_length=100)
 
-    def _str_(self):
+    def __str__(self):
         return self.course_name
     
 class CompletedLesson(models.Model):
@@ -123,7 +123,7 @@ class Lesson(models.Model):
     position = models.IntegerField(default=0) 
     completed_by = models.ManyToManyField(User, through=CompletedLesson, related_name='completed_lessons')
 
-    def _str_(self):
+    def __str__(self):
         return self.lesson_title
     
   
@@ -136,7 +136,7 @@ class Enrollment(models.Model):
     COMPLETION_STATUS = [('In Progress', 'In Progress'), ('Completed', 'Completed')]
     completion_status = models.CharField(max_length=20, choices=COMPLETION_STATUS, default='In Progress')
 
-    def _str_(self):
+    def __str__(self):
         return f'{self.user} - {self.course}'
 
 class Quiz(models.Model):
@@ -148,7 +148,7 @@ class Quiz(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
 
-    def _str_(self):
+    def __str__(self):
         return self.quiz_title
 class QuizQuestion(models.Model):
     question_id=models.AutoField(primary_key=True)
@@ -158,7 +158,7 @@ class QuizQuestion(models.Model):
     question_type = models.CharField(max_length=20, choices=QUESTION_TYPE)
     max_marks = models.IntegerField()
 
-    def _str_(self):
+    def __str__(self):
         return self.question_text
 
 class QuizOption(models.Model):
@@ -168,7 +168,7 @@ class QuizOption(models.Model):
     option_text = models.TextField(default=0)
     is_correct = models.BooleanField(default=False)
 
-    def _str_(self):
+    def __str__(self):
         return self.option_text
 
 class QuizResponse(models.Model):
@@ -177,7 +177,7 @@ class QuizResponse(models.Model):
     selected_option = models.ForeignKey(QuizOption, on_delete=models.CASCADE,null=True,blank=True)
     marks_obtained = models.IntegerField(default=0)
 
-    def _str_(self):
+    def __str__(self):
         return f'{self.student} - {self.question}'
 
 class Certificate(models.Model):
@@ -188,7 +188,7 @@ class Certificate(models.Model):
     certificate_url = models.URLField(max_length=255)
 
 
-    def _str_(self):
+    def __str__(self):
         return f'{self.student} - {self.course}'
 
 class Announcement(models.Model):
@@ -197,7 +197,7 @@ class Announcement(models.Model):
     content = models.TextField()
     date_posted = models.DateField(auto_now_add=True)
 
-    def _str_(self):
+    def __str__(self):
         return self.title
 class DiscussionForum(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE,null=True,blank=True)
@@ -206,7 +206,7 @@ class DiscussionForum(models.Model):
     date_posted = models.DateField(auto_now_add=True)
     parent_post = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
 
-    def _str_(self):
+    def __str__(self):
         return f'Post by {self.user} on {self.course}'
 
 class Notification(models.Model):
@@ -216,7 +216,7 @@ class Notification(models.Model):
     is_read = models.BooleanField(default=False)
     course = models.ForeignKey(Course, null=True, blank=True, on_delete=models.CASCADE)
 
-    def _str_(self):
+    def __str__(self):
         return f'Notification for {self.user}'
 
 
@@ -226,7 +226,7 @@ class Feedback(models.Model):
     content = models.TextField()
     feedback_date = models.DateField(auto_now_add=True)
 
-    def _str_(self):
+    def __str__(self):
         return f'Feedback from {self.user}'    
     
 

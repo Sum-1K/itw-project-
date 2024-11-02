@@ -1,41 +1,58 @@
-# tasks.py
+# from background_task import background
+# from django.utils import timezone
+# from .models import Certificate, Course, CompletedLesson  # Adjust based on your actual import paths
+# from django.contrib.auth.models import User
 
-from celery import shared_task
+# @background(schedule=60)  # Adjust the schedule as necessary (in seconds)
+# def generate_certificates():
+#     today = timezone.now().date()  # Get today's date
+#     courses = Course.objects.filter(end_date__lt=today)  # Get courses past their end date
+
+#     for course in courses:
+#         students = User.objects.filter(enrolled_courses=course)  # Get all students in the course
+
+#         for student in students:
+#             total_lessons = course.lesson_set.count()  # Total lessons in the course
+#             completed_lessons = CompletedLesson.objects.filter(user=student, lesson__course=course).count()  # Completed lessons
+#             progress = (completed_lessons / total_lessons) * 100 if total_lessons > 0 else 0  # Calculate progress
+
+#             # Check if progress is 100% and a certificate does not already exist
+#             if progress == 100 and not Certificate.objects.filter(student=student, course=course).exists():
+#                 # Create a certificate record
+#                 Certificate.objects.create(
+#                     student=student,
+#                     course=course,
+#                     date_issued=today,
+#                 )
+
+# # You may also want to call this task somewhere in your application, such as in your views or on startup
+# generate_certificates(repeat=60)  # This will schedule it to run every 60 seconds
+from background_task import background
 from django.utils import timezone
-from .models import Enrollment, Course, QuizResponse, CompletedLesson, Certificate, Lesson, Quiz
+from .models import Course, Certificate, CompletedLesson,Quiz,QuizResponse,Enrollment
+from django.contrib.auth.models import User
 
-@shared_task
-def issue_certificates():
-    today = timezone.now().date()
-    enrollments = Enrollment.objects.all()
+@background(schedule=0)  # Run every 24 hours (86400 seconds)
+def generate_certificates():
+    today = timezone.now().date() 
+    students_with_full_progress = Enrollment.objects.filter(
+    progress=100,
+    course__end_date__lt=today
+    ).select_related('user')
+    for enrollment in students_with_full_progress:
+        student_name = f"{enrollment.user.first_name} {enrollment.user.last_name}"
+        print("student name is: ",student_name)
 
-    for enrollment in enrollments:
-        course = enrollment.course
-        user = enrollment.user
-
-        # Check if the course has ended
-        if course.end_date == today:
-            # Calculate progress
-            total_lessons = Lesson.objects.filter(course=course).count()
-            total_quizzes = Quiz.objects.filter(course=course).count()
-            completed_lessons = CompletedLesson.objects.filter(user=user, lesson__course=course).count()
-            completed_quizzes = (
-                QuizResponse.objects
-                .filter(student=user, question__quiz__course=course)
-                .values('question__quiz')
-                .distinct()
-                .count()
+        # Create a certificate record
+        if not Certificate.objects.filter(student=enrollment.user,course=enrollment.course).exists():
+            Certificate.objects.create(
+                student=enrollment.user,
+                course=enrollment.course,
+                date_issued=today,
             )
+            Certificate.save()
 
-            # Check if progress is 100%
-            if total_lessons + total_quizzes > 0:
-                progress_percentage = ((completed_lessons + completed_quizzes) / (total_lessons + total_quizzes)) * 100
-                if progress_percentage == 100:
-                    # Issue certificate if it does not already exist
-                    if not Certificate.objects.filter(student=user, course=course).exists():
-                        Certificate.objects.create(
-                            student=user,
-                            course=course,
-                            date_issued=today,
-                            certificate_url=f'/certificates/{user.id}/{course.id}/'
-                        )
+    # python manage.py process_tasks
+    
+
+    

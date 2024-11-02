@@ -2,11 +2,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: "Quicksand", sans-serif;
 }
 body {
     margin: 0;
-    font-family: 'Oxygen';
+    font-family: "Quicksand", sans-serif;
     background-color: #f4f4f4;
 }
 .body_parts{
@@ -18,6 +18,25 @@ body {
     background-color: #f4f4f4;
 }
 
+.profile-photo-mini {
+    margin-left: 20px;
+    width: 42px;
+    height: 40px;
+    border-radius: 50%; /* Circular shape */
+    background-color: black; /* Black container background */
+    overflow: hidden; /* Ensures the image stays within bounds */
+    display: flex;
+    /*align-items: center;
+    justify-content: center;*/
+}
+
+
+.profile-photo-mini img {
+    width: 90%;
+    height: auto;
+    
+    border-radius:50%;
+}
 .container {
     display: flex;
     width: 80%;
@@ -359,6 +378,7 @@ body {
 
 /* ************************************************************************ */
 .card {
+    position: relative;
     margin-left:50px;
     width: 1000px;
     height:800px;
@@ -474,4 +494,70 @@ ul li {
 }
 
 
+/* Style for the profile form container */
+#profileFormContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    width: 300px; /* Adjust as needed */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
 
+/* Style for the form inside the container */
+#profileFormContainer .form-group {
+    margin-bottom: 15px;
+}
+
+/* Button styling */
+#profileFormContainer .btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#profileFormContainer .btn:hover {
+    background-color: #0056b3;
+}
+
+/* Optional: close icon or cancel button */
+#profileFormContainer .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #333;
+}
+
+
+
+.profile-photo-mini {
+    margin-left: 20px;
+    width: 42px;
+    height: 40px;
+    border-radius: 50%; /* Circular shape */
+    background-color: black; /* Black container background */
+    overflow: hidden; /* Ensures the image stays within bounds */
+    display: flex;
+    /*align-items: center;
+    justify-content: center;*/
+}
+
+
+.profile-photo-mini img {
+    width: 90%;
+    height: auto;
+    
+    border-radius: 50%;
+}

@@ -32,7 +32,7 @@
             </li>
             <li>
                 <div class="tag_name">
-                    <a href="/discussion">Discussion</a>
+                    <a href="{% url 'discussion_home' %}">Discussion</a>
                 </div>
             </li>
         </ul>
@@ -44,9 +44,11 @@
             {% if user.is_authenticated %}
                 <!-- Profile Dropdown for Logged-in User -->
                 <li class="profile-dropdown">
-                    <div class="profile-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
+                    <div class="profile-photo-mini">
+                        <img src="{{ user.profile_picture.url }}" alt="Profile Picture">
+                        <i class="fas fa-user"></i> <!-- Font Awesome user icon -->
+                       
+          </div>
                     <div class="dropdown-content-profile">
                         <div class="tag_name">
                             <a href="/profile">My Profile</a>
@@ -76,6 +78,8 @@
     </nav>
 
     <!-- Rest of your HTML content here -->
+
+
     <section>
         <div class="image">
             <div class="intro_content">

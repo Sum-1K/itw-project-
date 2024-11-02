@@ -16,9 +16,11 @@ from .models import Course,CompletedLesson
 from django.contrib.auth import logout
 from django.forms import modelformset_factory
 from django.utils import timezone
-from .models import Quiz, QuizQuestion, QuizOption, QuizResponse
+from .models import Quiz, QuizQuestion, QuizOption, QuizResponse,DiscussionForum
 from .forms import QuizResponseForm ,QuizQuestionForm,QuizForm,QuizOptionForm
 from datetime import timedelta
+
+from .forms import UserProfilePicForm,MessageForm
 
 
 
@@ -160,8 +162,20 @@ def courses(request):
     return render(request, 'courses.html', {'courses': available_courses})
 
 @login_required
+
 def profile(request):
-     return render(request,'profile.html')
+     if request.method == 'POST':
+        p_form = UserProfilePicForm(request.POST, request.FILES, instance=request.user)
+        if p_form.is_valid():
+            p_form.save()
+            return redirect('profile')
+     #u_form=UserUpdateForm()
+     p_form=UserProfilePicForm()
+     context={
+        #'u_form': u_form,
+        'p_form': p_form
+     }
+     return render(request,'profile.html', context)
 
 
 def admin_view(request):
@@ -200,11 +214,45 @@ def course_details(request, course_id,lesson_id=None,quiz_id=None):
 def home_unregistered(request):
      return render(request,'home_unregistered.html')
 
+@login_required
+def discussion(request, course_id):
+    if request.method == "POST":
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.user = request.user  # Associate the message with the current user
+            message.course = Course.objects.get(course_id=course_id) #this was needed after making chats for each subject
+            message.save()
+            return redirect('discussion', course_id=course_id)  # Redirect to the same page after submitting
+    else:
+        form = MessageForm()
+
+    course = Course.objects.filter(course_id=course_id).first()
+    all_courses = Course.objects.all()
+    enrolled_courses = Enrollment.objects.filter(user=request.user).values_list('course_id', flat=True)
+    context={
+        'chat':DiscussionForum.objects.filter(course=course),
+        #'chat':DiscussionForum.objects.all(),
+        'course':course,
+        #'courses':Course.objects.filter()   #i will fix this, soon
+        'courses':[c for c in all_courses if c.course_id in enrolled_courses]
+    }
+    return render(request,'discussion.html', context)
+
 
 @login_required
-# def discussion(request):
-   
-#     return render(request,'discussion.html')
+def discussion_home(request):
+    all_courses = Course.objects.all()
+    enrolled_courses = Enrollment.objects.filter(user=request.user).values_list('course_id', flat=True)
+    context={
+        #'chat':DiscussionForum.objects.filter(course_id=course_id),
+        #'course':Course.objects.filter(course_id=course_id),
+        'courses':[c for c in all_courses if c.course_id in enrolled_courses]
+    }
+    return render(request,'discussion_forum_blank.html', context)
+
+def student_enrollments(request):
+    return render(request,'student_enrollments.html')
 
 def student_enrollments(request):
     return render(request,'student_enrollments.html')
@@ -264,8 +312,10 @@ def my_courses(request):
 
         
         progress_percentage = ((completed_lessons+completed_quizzes) / (total_lessons+total_quiz) * 100) if total_lessons > 0 else 0 if total_quiz > 0 else 0
+        enrollment.progress = progress_percentage
+        enrollment.save()
 
-        
+        print(progress_percentage)
         progress_data.append({
             'course': course,
             'progress_percentage': progress_percentage,
@@ -292,9 +342,14 @@ def certificate_view(request, certificate_id):
     context = {
         'certificate': certificate  # Pass the single certificate object
     }
+    print("reached here ")
+
+    
+    print(certificate)
     
     #certificate=get_object_or_404(Certificate, certificate_id=certificate_id)
     #cert = Certificate.objects.get(certificate_id=certificate_id)
+    
     return render(request,'index.html',context)
 
 def logout_view(request):
@@ -367,31 +422,6 @@ def view_quiz_questions(request, quiz_id):
         'questions': questions,
     }
     return render(request, 'view_quiz_questions.html', context)
-# def add_quiz_questions(request, quiz_id):
-#     quiz = Quiz.objects.get(quiz_id=quiz_id)
-#     if request.method == 'POST':
-#         question_text = request.POST.get('question_text')
-#         question_type = request.POST.get('question_type')
-#         max_marks = request.POST.get('max_marks')
-
-#         # Create and save the new question
-#         question = QuizQuestion(
-#             quiz=quiz,
-#             question_text=question_text,
-#             question_type=question_type,
-#             max_marks=max_marks
-#         )
-#         question.save()  # Save the question
-
-#         return redirect('add_quiz_questions', quiz_id=quiz_id)  # Redirect to refresh page
-#     else:
-#         questions = QuizQuestion.objects.filter(quiz=quiz)  # Retrieve existing questions
-
-#     context = {
-#         'quiz': quiz,
-#         'questions': questions
-#     }
-#     return render(request, 'add_quiz_questions.html', context)
 
 
 
@@ -408,7 +438,7 @@ def take_quiz(request, quiz_id):
             selected_option_id = request.POST.get(f'question_{question.question_id}')
             if selected_option_id:
                 selected_option = get_object_or_404(QuizOption, option_id=selected_option_id)
-                # Create a new QuizResponse for the current question
+             
                 QuizResponse.objects.create(
                     student=request.user,
                     question=question,

@@ -16,6 +16,25 @@ body {
     font-family: "Quicksand", sans-serif;
     /* background-color: #da6b6b; */
 }
+.profile-photo-mini {
+    margin-left: 20px;
+    width: 42px;
+    height: 40px;
+    border-radius: 50%; /* Circular shape */
+    background-color: black; /* Black container background */
+    overflow: hidden; /* Ensures the image stays within bounds */
+    display: flex;
+    /*align-items: center;
+    justify-content: center;*/
+}
+
+
+.profile-photo-mini img {
+    width: 90%;
+    height: auto;
+    
+    border-radius:50%;
+}
 
 /* Navbar Styling */
 .nav-left{
