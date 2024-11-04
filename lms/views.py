@@ -21,9 +21,8 @@ from .forms import QuizQuestionForm,QuizForm,QuizOptionForm
 from datetime import timedelta
 
 from .forms import UserProfilePicForm,MessageForm,FeedbackForm
-from django.core.exceptions import PermissionDenied
-from django.contrib.auth.decorators import user_passes_test
-from django.contrib.auth.models import Group
+
+
 
 
 def is_teacher(user):
@@ -31,7 +30,7 @@ def is_teacher(user):
 
 def home(request):
     is_teacher = request.user.groups.filter(name='Teacher').exists() if request.user.is_authenticated else False
-    print("teacher con is: ",is_teacher)
+    print("teacher status: ",is_teacher)
     context = {
         'is_teacher': is_teacher,
         # ... other context variables
@@ -60,6 +59,8 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
+            user.last_login = timezone.now()  # Update last_login
+            user.save()
             return redirect(request.GET.get('next', 'home'))  # Redirect to home page
         else:
             messages.error(request, 'Invalid username or password.')
