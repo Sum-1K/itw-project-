@@ -83,7 +83,7 @@ def register(request):
         
        
 
-        # Validation: Check if all fields are filled
+        
         if not all([first_name,username,password,confirm_password, email, phone_number]):
             messages.error(request, "Please fill in all required fields.")
             return render(request, 'register.html')
@@ -98,12 +98,11 @@ def register(request):
             messages.error(request, "Phone number must be 10 digits.")
             return render(request, 'register.html')
 
-        # Validation: Check if password and confirm_password match
         if password != confirm_password:
             messages.error(request, "Passwords do not match.")
             return render(request, 'register.html')
 
-        # Validation: Check if email or phone_number is unique
+ 
         if User.objects.filter(email=email).exists():
             messages.error(request, "Email is already taken.")
             return render(request, 'register.html')
@@ -116,13 +115,11 @@ def register(request):
             messages.error(request, "Username is already taken")
             return render(request, 'register.html')
 
-        # Validation passed: Save the user
-        # hashed_password = make_password(password)
-
+      
         
         try:
-            with transaction.atomic():  # Ensure atomic transaction
-                # Create the CustomUser
+            with transaction.atomic():  
+               
                 print("Creating user...")
                
                 
@@ -144,7 +141,7 @@ def register(request):
 
                 print("student record created successfully")
                 messages.success(request, 'Registration successful! You can now log in.')
-                return redirect('login')  # Redirect to the home page after successful registration
+                return redirect('login')  
 
         except Exception as e:
    
@@ -165,7 +162,7 @@ def courses(request):
         enrolled_courses = Enrollment.objects.filter(user=request.user).values_list('course_id', flat=True)
         available_courses = [course for course in all_courses if course.course_id not in enrolled_courses]
     else:
-        # If user is not authenticated, show all courses
+      
         available_courses = all_courses
     
     return render(request, 'courses.html', {'courses': available_courses})
@@ -178,10 +175,10 @@ def profile(request):
         if p_form.is_valid():
             p_form.save()
             return redirect('profile')
-     #u_form=UserUpdateForm()
+     
      p_form=UserProfilePicForm()
      context={
-        #'u_form': u_form,
+      
         'p_form': p_form
      }
      return render(request,'profile.html', context)
@@ -206,7 +203,7 @@ def course_details(request, course_id,lesson_id=None,quiz_id=None):
     else:
         initial_lesson = get_object_or_404(Lesson, lesson_id=lesson_id)
 
-    # Mark the lesson as completed when it is loaded
+    
     if request.user.is_authenticated:
         CompletedLesson.objects.get_or_create(user=request.user, lesson=initial_lesson)
     context = {
@@ -224,10 +221,10 @@ def discussion(request, course_id):
         form = MessageForm(request.POST)
         if form.is_valid():
             message = form.save(commit=False)
-            message.user = request.user  # Associate the message with the current user
-            message.course = Course.objects.get(course_id=course_id) #this was needed after making chats for each subject
+            message.user = request.user 
+            message.course = Course.objects.get(course_id=course_id) 
             message.save()
-            return redirect('discussion', course_id=course_id)  # Redirect to the same page after submitting
+            return redirect('discussion', course_id=course_id)  
     else:
         form = MessageForm()
 
@@ -256,8 +253,6 @@ def discussion_home(request):
 
 
 
-# def certificates(request):
-#     return render(request,'certificates.html')
 
 
 @login_required
@@ -292,7 +287,7 @@ def my_courses(request):
         
         total_lessons=Lesson.objects.filter(course=course).count()
         total_quiz=Quiz.objects.filter(course=course).count()
-        # total_lessons = course.lessons.count()  
+      
         completed_lessons = CompletedLesson.objects.filter(user=request.user, lesson__course=course).count()
        
         completed_quizzes = (
@@ -380,14 +375,14 @@ def create_quiz(request):
     context = {'quiz_form': quiz_form}
     return render(request, 'create_quiz.html', context)
 
-# @user_passes_test(is_teacher)
+
 def add_quiz_questions(request, quiz_id):
         if not request.user.groups.filter(name='Teacher').exists():
             messages.error(request, "You do not have permission to access this page.")
             print("not a teacher")
             return redirect('home')
         quiz = get_object_or_404(Quiz, quiz_id=quiz_id)
-        # question_form = QuizQuestionForm()
+       
 
         if request.method == 'POST':
             if 'delete_option' in request.POST:
@@ -401,30 +396,30 @@ def add_quiz_questions(request, quiz_id):
             question_type = request.POST.get('question_type')
             max_marks = request.POST.get('max_marks')
 
-    #         # Create and save the new question
+    #      
             question = QuizQuestion(
                 quiz=quiz,
                 question_text=question_text,
                 question_type=question_type,
                 max_marks=max_marks
             )
-            question.save()  # Save the question
+            question.save()  
         print("question saved")
         question_form = QuizQuestionForm(request.POST)
         if question_form.is_valid():
 
 
             if request.POST.get('action') == 'finish':
-                # Redirect to a new page to view all questions for the course
+               
                 return redirect('view_quiz_questions', quiz_id=quiz_id)
             else:
-                # Clear the form for adding another question
-                question_form = QuizQuestionForm()  # Reset the form
+               
+                question_form = QuizQuestionForm()  
 
         else:
           question_form = QuizQuestionForm()
 
-        questions = QuizQuestion.objects.filter(quiz=quiz)  # Retrieve existing questions
+        questions = QuizQuestion.objects.filter(quiz=quiz)  
         context = {
         'quiz': quiz,
         'question_form': question_form,
@@ -432,7 +427,7 @@ def add_quiz_questions(request, quiz_id):
     }
         return render(request, 'add_quiz_questions.html', context)
 
-# @user_passes_test(is_teacher)
+
 def view_quiz_questions(request, quiz_id):
     quiz = get_object_or_404(Quiz, quiz_id=quiz_id)
     questions = QuizQuestion.objects.filter(quiz=quiz)
@@ -481,7 +476,7 @@ def take_quiz(request, quiz_id):
                     marks_obtained=selected_option.is_correct * question.max_marks
                 )
             
-        return redirect('quiz_result', quiz_id=quiz.quiz_id)  # Redirect to results page
+        return redirect('quiz_result', quiz_id=quiz.quiz_id)  
 
     context = {
         'quiz': quiz,
@@ -501,9 +496,9 @@ def quiz_result(request, quiz_id):
     }
     return render(request, 'quiz_result.html', context)
 
-# @user_passes_test(is_teacher)
+
 def add_quiz_options(request, question_id):
-    # Get the question for which we're adding options
+
     question = get_object_or_404(QuizQuestion, question_id=question_id)
 
     if request.method == 'POST':
@@ -513,11 +508,11 @@ def add_quiz_options(request, question_id):
             print(option_id)
             QuizOption.objects.filter(option_id=option_id).delete()
             return redirect('add_quiz_options', question_id=question_id)
-        # Retrieve option text and is_correct values from the form
+      
         option_text = request.POST.get('option_text')
-        is_correct = request.POST.get('is_correct') == 'on'  # Checkbox for correct answer
+        is_correct = request.POST.get('is_correct') == 'on'  
 
-        # Create and save the new option
+      
         option = QuizOption(
             question=question,
             option_text=option_text,
@@ -525,18 +520,18 @@ def add_quiz_options(request, question_id):
         )
         option.save()
 
-        # Check if "Finish" button was clicked
+        
         if request.POST.get('action') == 'finish':
-            # Redirect to the page showing all questions for the quiz
+           
             return redirect('view_quiz_questions', quiz_id=question.quiz.quiz_id)
         else:
-            # Clear the form for adding another option
-            option_form = QuizOptionForm()  # Reset the form
+       
+            option_form = QuizOptionForm()  
 
     else:
         option_form = QuizOptionForm()
 
-    # Retrieve existing options for this question
+   
     options = QuizOption.objects.filter(question=question)
     context = {
         'question': question,
