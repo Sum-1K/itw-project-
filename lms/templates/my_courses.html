@@ -37,13 +37,13 @@
         <ul class="nav-right">
 
 
-            <!-- Show based on user authentication status -->
+            
             {% if user.is_authenticated %}
-                <!-- Profile Dropdown for Logged-in User -->
+              
                 <li class="profile-dropdown">
                     <div class="profile-photo-mini">
                         <img src="{{ user.profile_picture.url }}" alt="Profile Picture">
-                        <i class="fas fa-user"></i> <!-- Font Awesome user icon -->
+                        <i class="fas fa-user"></i> 
                        
           </div>
                     <div class="dropdown-content-profile">
@@ -53,13 +53,11 @@
                         <div class="tag_name">
                             <a href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
                         </div>
-                        <div class="tag_name">
-                            <a href="#">Notifications</a>
-                        </div>
+                      
                     </div>
                 </li>
             {% else %}
-                <!-- Login and Register Buttons for Guest Users -->
+             
                 <li>
                     <div class="tag_name">
                         <a href="/login">Login</a>
@@ -78,20 +76,7 @@
     <section class="content">
         <h2 class="head">My Courses</h2>
         <div class="about_courses">
-            <!-- {% for enrollment in enrollments %}
-            <div class="course_names">
-                <div class="intro_image" style="background-image: url('{{ enrollment.course.image_url }}');">
-                </div>
-                <div class="course_details">
-                    <h3>{{ enrollment.course.course_name }}</h3>
-                    <p>{{ enrollment.course.course_description }}</p>
-                    <a href="{% url 'course_details' enrollment.course.course_id %}" class="Explore">Continue Learning</a>
-                 
-                </div>
-            </div>
-            {% empty %}
-            <p>No courses enrolled yet.</p>
-            {% endfor %} -->
+        
             {% for data in progress_data %}
             <div class="course_names">
                 <div class="intro_image" style="background-image: url('{{ data.course.image_url }}');">
@@ -101,7 +86,7 @@
                     <p>{{ data.course.course_description }}</p>
                     <a href="{% url 'course_details' data.course.course_id %}" class="Explore">Continue Learning</a>
 
-                    <!-- Progress Bar -->
+                    
                     <div class="progress-container">
                         <div class="progress-bar" style="width: {{ data.progress_percentage }}%;">
                             {{ data.progress_percentage|floatformat:1 }}%

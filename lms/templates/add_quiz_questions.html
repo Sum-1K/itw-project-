@@ -8,7 +8,7 @@
 <body>
     <h1>Add Questions for Quiz: {{ quiz.quiz_title }}</h1>
 
-    <!-- Question Form -->
+   
     <form method="POST">
         {% csrf_token %}
         
@@ -28,7 +28,7 @@
         <button type="submit" name="action" value="finish">Finish and Save</button>
     </form>
 
-    <!-- Display Validation Errors -->
+    
     {% if question_form.errors %}
         <div class="error">
             <ul>
@@ -41,11 +41,16 @@
         </div>
     {% endif %}
 
-    <!-- Display Existing Questions -->
+    
     <h2>Existing Questions</h2>
     <ul>
         {% for question in questions %}
             <li>{{ question.question_text }} ({{ question.question_type }})</li>
+
+            <form method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" name="delete_option" value="{{ question.question_id }}">Delete</button>
+            </form>
         {% empty %}
             <li>No questions added yet.</li>
         {% endfor %}

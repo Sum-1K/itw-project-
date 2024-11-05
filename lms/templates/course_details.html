@@ -38,13 +38,13 @@
         <ul class="nav-right">
 
 
-            <!-- Show based on user authentication status -->
+      
             {% if user.is_authenticated %}
-                <!-- Profile Dropdown for Logged-in User -->
+               
                 <li class="profile-dropdown">
                     <div class="profile-photo-mini">
                         <img src="{{ user.profile_picture.url }}" alt="Profile Picture">
-                        <i class="fas fa-user"></i> <!-- Font Awesome user icon -->
+                        <i class="fas fa-user"></i> 
                        
           </div>
                     <div class="dropdown-content-profile">
@@ -54,13 +54,11 @@
                         <div class="tag_name">
                             <a href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
                         </div>
-                        <div class="tag_name">
-                            <a href="#">Notifications</a>
-                        </div>
+                      
                     </div>
                 </li>
             {% else %}
-                <!-- Login and Register Buttons for Guest Users -->
+               
                 <li>
                     <div class="tag_name">
                         <a href="/login">Login</a>
@@ -76,7 +74,7 @@
     </nav>
 
     <div class="container">
-        <!-- Sidebar with Lessons -->
+        
         <div class="sidebar">
             <h3>Course Overview</h3>
             <ul>
@@ -85,10 +83,7 @@
                 <ul>
                     {% for lesson in lessons %}
                         <li>
-                            <!-- <a href="javascript:void(0);" onclick="loadLesson('{{ lesson.lesson_id }}')" 
-                               class="lesson-link {% if lesson == initial_lesson %}active{% endif %}">
-                                {{ lesson.position }}. {{ lesson.lesson_title }}
-                            </a> -->
+                         
                             <a href="{% url 'course_details_lesson' course.course_id lesson.lesson_id %}" 
                             class="lesson-link {% if lesson == initial_lesson %}active{% endif %}">
                              {{ lesson.position }}. {{ lesson.lesson_title }}
@@ -118,7 +113,7 @@
             </ul>
         </div>
 
-        <!-- Main Content Area -->
+        
         <div class="content">
             <div id="lesson-container">
                 <h2 id="lesson-title">{{ initial_lesson.lesson_title }}</h2>

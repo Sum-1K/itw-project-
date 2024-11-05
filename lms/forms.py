@@ -13,8 +13,8 @@ class QuizQuestionForm(forms.ModelForm):
         fields = ['quiz','question_text', 'question_type', 'max_marks']
         
 def __init__(self, *args, **kwargs):
-        # Handle optional question parameter if needed
-        self.question = kwargs.pop('question', None)  # Use pop with a default to avoid KeyError
+        
+        self.question = kwargs.pop('question', None)  
         super().__init__(*args, **kwargs)
         if self.question is not None:
             self.fields['question_text'].initial = self.question.question_text
@@ -30,21 +30,23 @@ class QuizOptionForm(forms.ModelForm):
 class QuizResponseForm(forms.ModelForm):
     class Meta:
         model = QuizResponse
-        fields = ['selected_option']  # Include fields as needed
+        fields = ['selected_option'] 
         widgets = {
-            'selected_option': forms.RadioSelect(),  # Use radio buttons for multiple-choice
+            'selected_option': forms.RadioSelect(),  
         }
 
 class QuizQuestionForm(forms.ModelForm):
     class Meta:
         model = QuizResponse
-        fields = ['selected_option']  # Only include the selected option for the quiz response
+        fields = ['selected_option']  
      
 
 class UserProfilePicForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['profile_picture']     
+
+
 class MessageForm(forms.ModelForm):
     content = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Type your message...', 'class': 'form-control'}))
     

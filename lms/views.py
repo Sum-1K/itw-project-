@@ -25,8 +25,6 @@ from .forms import UserProfilePicForm,MessageForm,FeedbackForm
 
 
 
-def is_teacher(user):
-    return user.groups.filter(name='teacher').exists()
 
 def home(request):
     is_teacher = request.user.groups.filter(name='Teacher').exists() if request.user.is_authenticated else False
@@ -131,7 +129,7 @@ def register(request):
 
 
                 user = User.objects.create(
-                      # Link to CustomUser
+                      
                     phone_number=phone_number,
                     email=email ,
                     username=username,
@@ -189,9 +187,6 @@ def profile(request):
      return render(request,'profile.html', context)
 
 
-def admin_view(request):
-     return render(request,'admin_view.html')
-
 
 
 
@@ -222,8 +217,6 @@ def course_details(request, course_id,lesson_id=None,quiz_id=None):
     }
     return render(request, 'course_details.html', context)
 
-def home_unregistered(request):
-     return render(request,'home_unregistered.html')
 
 @login_required
 def discussion(request, course_id):
@@ -243,9 +236,9 @@ def discussion(request, course_id):
     enrolled_courses = Enrollment.objects.filter(user=request.user).values_list('course_id', flat=True)
     context={
         'chat':DiscussionForum.objects.filter(course=course),
-        #'chat':DiscussionForum.objects.all(),
+        
         'course':course,
-        #'courses':Course.objects.filter()   #i will fix this, soon
+       
         'courses':[c for c in all_courses if c.course_id in enrolled_courses]
     }
     return render(request,'discussion.html', context)
@@ -256,17 +249,12 @@ def discussion_home(request):
     all_courses = Course.objects.all()
     enrolled_courses = Enrollment.objects.filter(user=request.user).values_list('course_id', flat=True)
     context={
-        #'chat':DiscussionForum.objects.filter(course_id=course_id),
-        #'course':Course.objects.filter(course_id=course_id),
+        
         'courses':[c for c in all_courses if c.course_id in enrolled_courses]
     }
     return render(request,'discussion_forum_blank.html', context)
 
-def student_enrollments(request):
-    return render(request,'student_enrollments.html')
 
-def student_enrollments(request):
-    return render(request,'student_enrollments.html')
 
 # def certificates(request):
 #     return render(request,'certificates.html')
@@ -280,10 +268,10 @@ def enroll_in_course(request, course_id):
     enrollment, created = Enrollment.objects.get_or_create(user=request.user, course=course)
 
     if created:
-        # Enrollment was successful
+      
         messages.success(request, "You have successfully enrolled in the course!")
     else:
-        # User is already enrolled
+        
         messages.info(request, "You are already enrolled in this course.")
 
     return redirect('course_details', course_id=course_id)
@@ -293,13 +281,7 @@ def enroll_in_course(request, course_id):
 
 
 def my_courses(request):
-    # enrollments = Enrollment.objects.filter(user=request.user)
-    # print("i am here")
-    
-    # for x in enrollments:
-    #     print("values printing")
-    #     print(x.user.first_name)
-    # return render(request, 'my_courses.html', {'enrollments': enrollments})
+   
     enrollments = Enrollment.objects.filter(user=request.user)
     progress_data = []
    
@@ -316,8 +298,8 @@ def my_courses(request):
         completed_quizzes = (
         QuizResponse.objects
         .filter(student=request.user, question__quiz__course=course)
-        .values('question__quiz')  # Get only the quiz for grouping
-        .distinct()  # Ensure each quiz is counted only once
+        .values('question__quiz')  
+        .distinct()  
         .count()
 )
 
@@ -357,15 +339,14 @@ def certificate_view(request, certificate_id):
     certificate = get_object_or_404(Certificate, certificate_id=certificate_id, student=request.user)
 
     context = {
-        'certificate': certificate  # Pass the single certificate object
+        'certificate': certificate  
     }
     print("reached here ")
 
     
     print(certificate)
     
-    #certificate=get_object_or_404(Certificate, certificate_id=certificate_id)
-    #cert = Certificate.objects.get(certificate_id=certificate_id)
+    
     
     return render(request,'index.html',context)
 
@@ -406,8 +387,16 @@ def add_quiz_questions(request, quiz_id):
             print("not a teacher")
             return redirect('home')
         quiz = get_object_or_404(Quiz, quiz_id=quiz_id)
-    
+        # question_form = QuizQuestionForm()
+
         if request.method == 'POST':
+            if 'delete_option' in request.POST:
+                question_id = request.POST.get('delete_option')
+                print("question id is: ")
+                print(question_id)
+                QuizQuestion.objects.filter(question_id=question_id).delete()
+                return redirect('add_quiz_questions', quiz_id=quiz_id)
+            
             question_text = request.POST.get('question_text')
             question_type = request.POST.get('question_type')
             max_marks = request.POST.get('max_marks')
@@ -420,7 +409,8 @@ def add_quiz_questions(request, quiz_id):
                 max_marks=max_marks
             )
             question.save()  # Save the question
-            question_form = QuizQuestionForm(request.POST)
+        print("question saved")
+        question_form = QuizQuestionForm(request.POST)
         if question_form.is_valid():
 
 
@@ -434,8 +424,8 @@ def add_quiz_questions(request, quiz_id):
         else:
           question_form = QuizQuestionForm()
 
-          questions = QuizQuestion.objects.filter(quiz=quiz)  # Retrieve existing questions
-          context = {
+        questions = QuizQuestion.objects.filter(quiz=quiz)  # Retrieve existing questions
+        context = {
         'quiz': quiz,
         'question_form': question_form,
         'questions': questions
@@ -476,7 +466,7 @@ def take_quiz(request, quiz_id):
     questions = QuizQuestion.objects.filter(quiz=quiz)
 
     if request.method == 'POST':
-        # Clear any existing responses for this quiz by the current user
+        
         QuizResponse.objects.filter(question__quiz=quiz, student=request.user).delete()
 
         for question in questions:
@@ -490,7 +480,7 @@ def take_quiz(request, quiz_id):
                     selected_option=selected_option,
                     marks_obtained=selected_option.is_correct * question.max_marks
                 )
-
+            
         return redirect('quiz_result', quiz_id=quiz.quiz_id)  # Redirect to results page
 
     context = {
@@ -517,6 +507,12 @@ def add_quiz_options(request, question_id):
     question = get_object_or_404(QuizQuestion, question_id=question_id)
 
     if request.method == 'POST':
+        if 'delete_option' in request.POST:
+            option_id = request.POST.get('delete_option')
+            print("option id is: ")
+            print(option_id)
+            QuizOption.objects.filter(option_id=option_id).delete()
+            return redirect('add_quiz_options', question_id=question_id)
         # Retrieve option text and is_correct values from the form
         option_text = request.POST.get('option_text')
         is_correct = request.POST.get('is_correct') == 'on'  # Checkbox for correct answer

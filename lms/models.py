@@ -1,13 +1,13 @@
-# from django.db import models
+
 
 
 from django.db import models
-# from django.contrib.auth.models import User
+
 
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
 
-# Step 1: Create a custom user manager
+
 class CustomUserManager(BaseUserManager):
     def create_user(self, username, email, password=None, **extra_fields):
         if not email:
@@ -29,8 +29,8 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(username, email, password, **extra_fields)
 
-# Step 2: Update your custom User model
-class User(AbstractBaseUser, PermissionsMixin):  # Inherit from AbstractBaseUser and PermissionsMixin
+
+class User(AbstractBaseUser, PermissionsMixin):  
     USER_TYPES = [('student', 'Student'), ('teacher', 'Teacher'), ('admin', 'Admin')]
 
     user_id = models.AutoField(primary_key=True)
@@ -180,7 +180,7 @@ class DiscussionForum(models.Model):
         return f'Post by {self.user} on {self.course}'
 
 
-# not used
+# not used#####################################333
 class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
     content = models.TextField()
@@ -190,7 +190,8 @@ class Notification(models.Model):
 
     def __str__(self):
         return f'Notification for {self.user}'
-    # 
+    ##########################################
+   
 
 
 

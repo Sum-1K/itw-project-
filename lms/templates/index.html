@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Dashboard</title>
+    <title>Certificate_dashboard</title>
     <link rel="stylesheet" href="{% static 'css/certificate.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,13 +37,13 @@
         <ul class="nav-right">
 
 
-            <!-- Show based on user authentication status -->
+           
             {% if user.is_authenticated %}
-                <!-- Profile Dropdown for Logged-in User -->
+                
                 <li class="profile-dropdown">
                     <div class="profile-photo-mini">
                         <img src="{{ user.profile_picture.url }}" alt="Profile Picture">
-                        <i class="fas fa-user"></i> <!-- Font Awesome user icon -->
+                        <i class="fas fa-user"></i> 
                        
           </div>
                     <div class="dropdown-content-profile">
@@ -53,13 +53,11 @@
                         <div class="tag_name">
                             <a href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
                         </div>
-                        <div class="tag_name">
-                            <a href="#">Notifications</a>
-                        </div>
+                        
                     </div>
                 </li>
             {% else %}
-                <!-- Login and Register Buttons for Guest Users -->
+                
                 <li>
                     <div class="tag_name">
                         <a href="/login">Login</a>

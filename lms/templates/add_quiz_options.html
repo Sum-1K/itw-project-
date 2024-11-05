@@ -11,7 +11,7 @@
         {% csrf_token %}
         {{ option_form.as_p }}
 
-        <!-- Save and Finish buttons for actions -->
+        
         <button type="submit" name="action" value="save">Add Option</button>
         <button type="submit" name="action" value="finish">Finish</button>
     </form>
@@ -19,8 +19,15 @@
     <h2>Existing Options</h2>
     <ul>
         {% for option in options %}
-            <li>{{ option.option_text }}{% if option.is_correct %} (Correct){% endif %}</li>
+            <li>{{ option.option_text }}{% if option.is_correct %} (Correct){% endif %}
+
+                <form method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" name="delete_option" value="{{ option.option_id }}">Delete</button>
+                </form>
+            </li>
         {% endfor %}
     </ul>
+    
 </body>
 </html>

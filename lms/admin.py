@@ -1,7 +1,7 @@
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User,  Enrollment,  Course,Lesson,Certificate,CompletedLesson,Quiz,QuizQuestion,QuizOption,QuizResponse
+from .models import User,  Enrollment,  Course,Lesson,Certificate,DiscussionForum,CompletedLesson,Quiz,QuizQuestion,QuizOption,QuizResponse
 # from django.contrib.auth.models import  Group
 
 class CustomUserAdmin(UserAdmin):
@@ -11,15 +11,14 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('username', 'email')
     ordering = ('username',)
     
-    # Fields to display and edit when viewing or editing a user
+    
     fieldsets = (
         (None, {'fields': ('username', 'email', 'password')}),
         ('Personal Info', {'fields': ('first_name', 'last_name', 'phone_number', 'profile_picture', 'user_type')}),
         ('Permissions', {'fields': ('is_staff', 'is_active', 'is_superuser', 'groups','user_permissions')}),
         ('Important dates', {'fields': ('last_login',)}),
     )  
-    
-    # Fields to display and edit when adding a new user
+ 
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
@@ -31,9 +30,9 @@ class CustomUserAdmin(UserAdmin):
     )
 
 admin.site.register(User, CustomUserAdmin)
-# admin.site.register(Notification)
+
 admin.site.register(Enrollment)
-# admin.site.register(DiscussionForum)
+admin.site.register(DiscussionForum)
 admin.site.register(Course)
 
 admin.site.register(Lesson)
@@ -43,5 +42,5 @@ admin.site.register(Quiz)
 admin.site.register(QuizResponse)
 admin.site.register(QuizQuestion)
 admin.site.register(QuizOption)
-# admin.site.register(Group)
+
 
