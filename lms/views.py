@@ -360,7 +360,7 @@ def create_quiz(request):
     if not request.user.groups.filter(name='Teacher').exists():
         messages.error(request, "You do not have permission to access this page.")
         print("not a teacher")
-        return redirect('home')  # Redirect to home or any other appropriate page
+        return redirect('home')  
     if request.method == 'POST':
         quiz_form = QuizForm(request.POST)
         if quiz_form.is_valid():
